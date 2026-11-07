@@ -1,0 +1,6 @@
+name: receipt-ledger
+version: "0.1.0"
+description: Receipt ledger for the desktop app — matches charges to receipt files,
+  drops duplicate scans, lists what paper is missing and the portal to get it, and
+  names the structural fixes that stop the yearly scramble.
+requires_hermes: ">=0.21.0"
