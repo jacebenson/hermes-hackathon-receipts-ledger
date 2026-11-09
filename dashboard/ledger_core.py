@@ -33,6 +33,7 @@ from pathlib import Path
 from typing import Any
 
 import securo_client
+import classify as classification_engine
 from securo_client import SecuroError
 
 PLUGIN_ROOT = Path(__file__).resolve().parent.parent
@@ -399,7 +400,7 @@ def _portal_for(vendor: str) -> dict[str, str]:
 
 
 def build_ledger(settings: dict[str, Any], *, securo_client_: Any = None) -> dict[str, Any]:
-    """The whole scan: fetch, match, dedupe, list gaps, produce structural advice."""
+    """Fetch, match, dedupe and add audited classifications plus human review queue."""
     receipts_dir = Path(settings["receipts_dir"]).expanduser() if settings.get("receipts_dir") else None
     csv_path = Path(settings["transactions_csv"]).expanduser() if settings.get("transactions_csv") else None
 
@@ -451,6 +452,8 @@ def build_ledger(settings: dict[str, Any], *, securo_client_: Any = None) -> dic
             }
         )
 
+    rules = classification_engine.load_rules(DATA_DIR / "classification.json")
+    rows = classification_engine.classify(rows, rules)
     unmatched_receipts = [
         {"path": r.path, "filename": r.filename, "amount": r.amount, "vendor": r.vendor_guess}
         for r in receipts
@@ -478,6 +481,8 @@ def build_ledger(settings: dict[str, Any], *, securo_client_: Any = None) -> dic
             "coverage_pct": round(100 * len(with_paper) / len(charges), 1) if charges else 0.0,
         },
         "transactions": rows,
+        "classification_summary": classification_engine.summary(rows),
+        "review_queue": [row for row in charges if row["review"]["needed"]],
         "missing": [
             {
                 "date": row["date"],

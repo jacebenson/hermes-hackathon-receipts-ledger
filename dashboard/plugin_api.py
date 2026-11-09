@@ -79,6 +79,16 @@ async def ledger() -> dict:
     return data
 
 
+@router.get("/classification")
+async def classification() -> dict:
+    engine = core.classification_engine
+    rules = engine.load_rules(core.DATA_DIR / "classification.json")
+    rows = engine.classify((core.load_ledger() or {}).get("transactions", []), rules)
+    return {"summary": engine.summary(rows),
+            "queue": [row for row in rows if row.get("kind", "charge") == "charge" and row["review"]["needed"]],
+            "rules": rules}
+
+
 @router.post("/scan")
 async def scan():
     cached = core.load_ledger()
@@ -251,6 +261,14 @@ async def package(request: Request):
         for dimension in ("by_vendor", "by_category", "by_month", "by_account"):
             for bucket in totals.get(dimension, []):
                 writer.writerow([dimension, bucket["key"], bucket["count"], f"{bucket['dollars']:.2f}"])
+
+    engine = core.classification_engine
+    rules = engine.load_rules(core.DATA_DIR / "classification.json")
+    classified = engine.classify(ledger.get("transactions", []), rules)
+    with (staged / "classification.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=engine.EXPORT_FIELDS)
+        writer.writeheader()
+        writer.writerows(engine.export_row(row) for row in classified)
 
     counts = ledger.get("counts", {})
     source = ledger.get("source", {})
