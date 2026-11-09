@@ -24,12 +24,14 @@ import shutil
 import zipfile
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
 import ledger_core as core
 import securo_client
+import securo_write
 from securo_client import SecuroError
 
 router = APIRouter()
@@ -131,6 +133,78 @@ async def securo_test(request: Request) -> dict:
         from_date, to_date = core.securo_period(merged)
         result["period"] = {"from": from_date, "to": to_date}
         return result
+    except SecuroError as error:
+        return {"ok": False, **error.as_dict()}
+
+
+def _attachment_target(body: dict) -> tuple:
+    """Resolve only a scanned Securo target, then recheck it and the local file."""
+    transaction_id, path = body.get("transaction_id"), body.get("path")
+    if not isinstance(transaction_id, str) or not transaction_id or not isinstance(path, str) or not path:
+        raise SecuroError("transaction_id and path must be nonempty strings.", hint="Select a scanned transaction and a local receipt file.")
+    ledger = core.load_ledger() or {}
+    source = ledger.get("source") or {}
+    if source.get("kind") != "securo":
+        raise SecuroError("No Securo scan is available.", hint="Run a Securo scan before attaching a receipt.")
+    row = next((row for row in ledger.get("transactions", []) if row.get("securo_id") and transaction_id in (row.get("id"), row.get("securo_id"))), None)
+    if row is None:
+        raise SecuroError("The transaction is not in the last Securo scan.", hint="Rescan and select the transaction again.")
+    file, size = securo_write.validate_file(path)
+    if file.suffix.lower() not in core.RECEIPT_EXTENSIONS:
+        raise SecuroError("This receipt file extension is not allowed.", hint="Use one of: " + ", ".join(sorted(core.RECEIPT_EXTENSIONS)))
+    client = securo_client.client_for(core.effective_settings())
+    if source.get("securo_url") != client.base_url:
+        raise SecuroError("The Securo instance changed since the last scan.", hint="Rescan the current instance before attaching a receipt.")
+    try:
+        client._ensure_token()
+        live = client._call("GET", f"/api/transactions/{quote(row['securo_id'], safe='')}")
+        if not isinstance(live, dict) or str(live.get("id")) != row["securo_id"]:
+            raise securo_write.request_error(404)
+        count = len(client.attachments(row["securo_id"]))
+    except SecuroError as error:
+        raise securo_write.request_error(error.status) from error
+    except (AttributeError, TypeError, ValueError, OSError) as error:
+        raise SecuroError("Securo returned unusable transaction or attachment data.", hint="Check the Securo URL and version, then rescan before attaching.") from error
+    return client, row, file, size, count
+
+
+@router.post("/securo/attach/preview")
+async def securo_attach_preview(request: Request) -> dict:
+    """Read-only preview. Login may POST for authentication, never for attachments."""
+    try:
+        try:
+            body = await request.json()
+        except ValueError:
+            body = None
+        if not isinstance(body, dict):
+            raise SecuroError("Expected a JSON object.", hint="Send transaction_id and path in a JSON object.")
+        _, row, file, size, count = _attachment_target(body)
+        return {
+            "ok": True,
+            "target": {key: row[key] for key in ("date", "vendor", "amount")},
+            "file": {"name": file.name, "bytes": size},
+            "attachment_count": count,
+            "warnings": [f"This transaction already has {count} attachment(s). This upload adds another; it does not replace them."] if count else [],
+        }
+    except SecuroError as error:
+        return {"ok": False, **error.as_dict()}
+
+
+@router.post("/securo/attach")
+async def securo_attach(request: Request) -> dict:
+    """One explicitly confirmed write, with the same checks repeated at upload."""
+    try:
+        try:
+            body = await request.json()
+        except ValueError:
+            body = None
+        if not isinstance(body, dict):
+            raise SecuroError("Expected a JSON object.", hint="Send transaction_id, path and confirm: true in a JSON object.")
+        if body.get("confirm") is not True:
+            raise SecuroError("Attachment upload requires confirm: true.", hint="Preview the target and receipt, then explicitly confirm the upload.")
+        client, row, file, _, _ = _attachment_target(body)
+        result = securo_write.SecuroWriter(client).upload_attachment(row["securo_id"], file)
+        return {"ok": True, "attached": {key: result[key] for key in ("filename", "size")}, "transaction_id": row["securo_id"]}
     except SecuroError as error:
         return {"ok": False, **error.as_dict()}
 
