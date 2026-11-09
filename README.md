@@ -249,7 +249,10 @@ and fresh-install.
   after saving a rule.
 - Attachment upload adds a file; it never replaces or deletes one, and it does
   not retry after a failure that might have succeeded. Check the transaction in
-  Securo before trying again.
+  Securo before trying again. The write path was verified against a real Securo
+  instance with a throwaway user: preview resolved the charge, an unconfirmed
+  request was refused, a confirmed one attached the PDF, and the attachment
+  count went 0 to 1.
 
 ## Layout
 
