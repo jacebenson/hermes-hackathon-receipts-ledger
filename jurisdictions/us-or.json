@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-or",
+  "name": "Oregon",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.oregon.gov/DOR/pages/index.aspx",
+      "title": "Oregon Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.oregon.gov/business/Pages/default.aspx",
+      "title": "Secretary of State - Business",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/oregon",
+      "title": "IRS state government directory: Oregon",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.oregon.gov/dor/programs/businesses/Pages/sales-tax.aspx",
+      "title": "Sales Tax in Oregon",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.oregon.gov/dor/programs/businesses/Pages/Withholding-and-Payroll-tax.aspx",
+      "title": "Payroll withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "or-annual-report",
+      "title": "Annual report or renewal",
+      "applies_when": "Oregon registered business entities other than assumed business names",
+      "form": "Annual Report or Renewal",
+      "due_rule": "Anniversary date of original filing each year",
+      "frequency": "annual",
+      "source_url": "https://sos.oregon.gov/business/pages/obr-annual-report-renewal.aspx",
+      "quote": "Your renewal is due on the anniversary date of the original filing.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
+}

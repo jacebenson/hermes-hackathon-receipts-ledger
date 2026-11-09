@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-ia",
+  "name": "Iowa",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://tax.iowa.gov/",
+      "title": "Iowa Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.iowa.gov/",
+      "title": "Iowa Secretary of State",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/iowa",
+      "title": "IRS state government directory: Iowa",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://tax-mapper.iowa.gov/",
+      "title": "Sales Tax Lookup",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://revenue.iowa.gov/taxes/tax-guidance/withholding-tax",
+      "title": "Withholding Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "ia-biennial-report",
+      "title": "Biennial report",
+      "applies_when": "Iowa business entities required to file biennial reports; filing-year parity depends on entity type",
+      "form": "biennial report",
+      "due_rule": "March 31 in the applicable odd or even reporting year",
+      "frequency": "biennial",
+      "source_url": "https://sos.iowa.gov/businesses/business-faqs",
+      "quote": "They are to be filed by March 31 every odd or even year depending on the type of entity.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://sos.iowa.gov/. The withholding topic was selected by following links from the official revenue website. No obligation was verified. Quote re-checked against the page as read by the extraction service; the host refuses direct requests."
+}

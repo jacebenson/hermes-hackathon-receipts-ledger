@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "us-mn",
+  "name": "Minnesota",
+  "level": "state",
+  "confidence": "verified",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.revenue.state.mn.us/minnesota-department-revenue-divisions",
+      "title": "Department of Revenue - Business Taxpayers",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.sos.state.mn.us/business-liens/?page=3",
+      "title": "Secretary of State - Business Services",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/minnesota",
+      "title": "IRS state government directory: Minnesota",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.revenue.state.mn.us/sales-and-use-tax",
+      "title": "Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.revenue.state.mn.us/withholding-tax",
+      "title": "Withholding Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "annual_renewal": {
+      "url": "https://www.sos.mn.gov/media/1569/llcdomesticforeignrenewal.pdf",
+      "title": "Limited Liability Company Annual Renewal, page 1 and instructions",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "mn-annual-renewal",
+      "title": "Annual LLC renewal",
+      "applies_when": "Limited liability companies governed under Minnesota Statutes, Chapter 322C",
+      "form": "Limited Liability Company Annual Renewal",
+      "due_rule": "December 31",
+      "frequency": "annual",
+      "source_url": "https://www.sos.mn.gov/media/1569/llcdomesticforeignrenewal.pdf",
+      "quote": "NOTICE: Failure to file this form by December 31 of this year will result in the termination or revocation of this limited liability company without further notice from the Secretary of State, pursuant to Minnesota Statutes, 322C.0705.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Annual LLC renewal verified against the SOS form, page 1. Instructions state: All limited liability companies governed under Minnesota Statutes, Chapter 322C are required to file an annual renewal once every calendar year. Other state tax rules are not verified."
+}

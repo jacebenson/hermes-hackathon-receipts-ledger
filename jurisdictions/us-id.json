@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-id",
+  "name": "Idaho",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://tax.idaho.gov/",
+      "title": "State Tax Commission",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.idaho.gov/",
+      "title": "Office of the Secretary of State",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/idaho",
+      "title": "IRS state government directory: Idaho",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://tax.idaho.gov/taxes/sales-use/",
+      "title": "Sales and Use Taxes",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://tax.idaho.gov/taxes/income-tax/withholding/",
+      "title": "Withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "id-annual-filing",
+      "title": "Annual report",
+      "applies_when": "Domestic filing entities, domestic LLPs and registered foreign entities",
+      "form": "annual report",
+      "due_rule": "Each year before the end of the formation, qualification or registration month",
+      "frequency": "annual",
+      "source_url": "https://legislature.idaho.gov/statutesrules/idstat/Title30/T30CH21/SECT30-21-213/",
+      "quote": "The annual report must be delivered to the secretary of state for filing each year before the end of the month during which the public organic record of a domestic filing entity became effective, the statement of qualification of a domestic limited liability partnership became effective, or a foreign filing entity registered to do business in this state.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
+}

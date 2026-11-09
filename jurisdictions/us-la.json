@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-la",
+  "name": "Louisiana",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://revenue.louisiana.gov/businesses/",
+      "title": "Louisiana Department of Revenue - Business",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.sos.la.gov/Pages/default.aspx",
+      "title": "Secretary of State",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/louisiana",
+      "title": "IRS state government directory: Louisiana",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://revenue.louisiana.gov/businesses/general-sales-and-use-taxes/general-sales-use-tax/",
+      "title": "General Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://revenue.louisiana.gov/businesses/widely-used-tax-types/withholding/",
+      "title": "Withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Louisiana's official FAQ confirms annual filing but states no ordinary due date, only revocation-cure deadlines. A person needs to read the statute."
+}

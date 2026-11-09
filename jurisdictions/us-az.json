@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-az",
+  "name": "Arizona",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.azdor.gov/",
+      "title": "Arizona Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.azcc.gov/",
+      "title": "Arizona Corporation Commission",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/arizona",
+      "title": "IRS state government directory: Arizona",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://azdor.gov/node/242",
+      "title": "Transaction Privilege Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://azdor.gov/node/238",
+      "title": "Learn About Withholding Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "az-annual-filing",
+      "title": "Corporation annual report",
+      "applies_when": "Corporations; LLCs are not required to file annual reports",
+      "form": "annual report",
+      "due_rule": "Corporation-specific designated due date each year, shown on its ACC business record",
+      "frequency": "annual",
+      "source_url": "https://www.azcc.gov/faqs/BusinessServicesFAQs",
+      "quote": "Each corporation must file their annual report by their designated due date each year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
+}

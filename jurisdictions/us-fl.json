@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-fl",
+  "name": "Florida",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://floridarevenue.com/Pages/info_business.aspx",
+      "title": "Department of Revenue - Businesses",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://dos.myflorida.com/sunbiz/",
+      "title": "Florida Department of State - Division of Corporations",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/florida",
+      "title": "IRS state government directory: Florida",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://floridarevenue.com/taxes/taxesfees/Pages/sales_tax.aspx",
+      "title": "Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://floridarevenue.com/Pages/info_business.aspx",
+      "title": "Withholding research entry point; topic page not confirmed",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "fl-annual-filing",
+      "title": "Annual report",
+      "applies_when": "Active Florida business entities required to file annual reports",
+      "form": "annual report",
+      "due_rule": "May 1 to avoid a late fee for mailed check or money-order payments",
+      "frequency": "annual",
+      "source_url": "https://dos.fl.gov/sunbiz/manage-business/efile/annual-report/",
+      "quote": "Your payment voucher and check or money order must be postmarked and mailed on or before May 1 to avoid a late fee.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
+}

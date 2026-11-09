@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-sd",
+  "name": "South Dakota",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://dor.sd.gov/",
+      "title": "Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sdsos.gov/business-services/corporations/default.aspx",
+      "title": "Office of the Secretary of State - Corporations",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/south-dakota",
+      "title": "IRS state government directory: South Dakota",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://dor.sd.gov/individuals/taxes/sales-use-tax/",
+      "title": "Sales & Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://dor.sd.gov/",
+      "title": "Withholding research entry point; topic page not confirmed",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "sd-annual-report",
+      "title": "Annual report",
+      "applies_when": "South Dakota filing entities and qualified foreign entities subject to annual reporting; excludes banks under 51A-3-1.1 and limited partnerships under chapter 48-7",
+      "form": "Annual Report",
+      "due_rule": "Same date each subsequent year; current first-report rule is before February 1 of year after authorization",
+      "frequency": "annual",
+      "source_url": "https://sdlegislature.gov/Statutes/59-11-25",
+      "quote": "The subsequent annual report shall be delivered to the Office of the Secretary of State by the same date each subsequent year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Quote re-checked against the page as read by the extraction service; the host refuses direct requests."
+}

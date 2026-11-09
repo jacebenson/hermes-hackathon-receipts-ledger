@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-ne",
+  "name": "Nebraska",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://revenue.nebraska.gov/",
+      "title": "Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.nebraska.gov/business-services/corporate-and-business",
+      "title": "Secretary of State - Corporate and Business",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/nebraska",
+      "title": "IRS state government directory: Nebraska",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://revenue.nebraska.gov/businesses/nebraska-sales-and-use-tax",
+      "title": "Sales and use tax rates and information",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://revenue.nebraska.gov/businesses/nebraska-income-tax-withholding",
+      "title": "Income tax withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "ne-biennial-report",
+      "title": "Biennial LLC report",
+      "applies_when": "Domestic and foreign LLCs and professional LLCs in Nebraska",
+      "form": "biennial report",
+      "due_rule": "April 1 in odd-numbered years; delinquent June 16",
+      "frequency": "biennial",
+      "source_url": "https://sos.nebraska.gov/business-services/annualbiennial-reporting",
+      "quote": "Domestic and Foreign Limited Liability Companies and Professional Limited Liability Companies biennial reports are due in the odd numbered years by April 1, delinquent June 16.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
+}

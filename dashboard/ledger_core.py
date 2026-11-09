@@ -33,6 +33,7 @@ from pathlib import Path
 from typing import Any
 
 import securo_client
+import classify as classification_engine
 from securo_client import SecuroError
 
 PLUGIN_ROOT = Path(__file__).resolve().parent.parent
@@ -54,6 +55,16 @@ SETTINGS_KEYS = (
     "to_date",
 )
 SECRET_KEYS = ("securo_token", "securo_password")
+
+# Hermes' own plugin settings live at plugins.entries.<id>.settings.<key>, and a
+# `type: secret` field is stored in .env under this name instead of config.yaml.
+# Both are declared in plugin.yaml's config_schema, so Settings -> Plugins can
+# hold the whole connection.
+HERMES_PLUGIN_ID = "receipt-ledger"
+SECRET_ENV = {
+    "securo_password": "RECEIPT_LEDGER_SECURO_PASSWORD",
+    "securo_token": "RECEIPT_LEDGER_SECURO_TOKEN",
+}
 
 # Where each vendor's missing paper actually lives. Kept as data, not code, so the
 # user can extend it without touching logic. Portal text is what we show in the UI.
@@ -389,7 +400,7 @@ def _portal_for(vendor: str) -> dict[str, str]:
 
 
 def build_ledger(settings: dict[str, Any], *, securo_client_: Any = None) -> dict[str, Any]:
-    """The whole scan: fetch, match, dedupe, list gaps, produce structural advice."""
+    """Fetch, match, dedupe and add audited classifications plus human review queue."""
     receipts_dir = Path(settings["receipts_dir"]).expanduser() if settings.get("receipts_dir") else None
     csv_path = Path(settings["transactions_csv"]).expanduser() if settings.get("transactions_csv") else None
 
@@ -441,6 +452,8 @@ def build_ledger(settings: dict[str, Any], *, securo_client_: Any = None) -> dic
             }
         )
 
+    rules = classification_engine.load_rules(DATA_DIR / "classification.json")
+    rows = classification_engine.classify(rows, rules)
     unmatched_receipts = [
         {"path": r.path, "filename": r.filename, "amount": r.amount, "vendor": r.vendor_guess}
         for r in receipts
@@ -468,6 +481,8 @@ def build_ledger(settings: dict[str, Any], *, securo_client_: Any = None) -> dic
             "coverage_pct": round(100 * len(with_paper) / len(charges), 1) if charges else 0.0,
         },
         "transactions": rows,
+        "classification_summary": classification_engine.summary(rows),
+        "review_queue": [row for row in charges if row["review"]["needed"]],
         "missing": [
             {
                 "date": row["date"],
@@ -621,6 +636,7 @@ def build_advice(rows: list[dict[str, Any]], duplicates_dropped: int, source_kin
 
 
 def load_settings() -> dict[str, Any]:
+    """The plugin's own file: what the pane's setup card saves."""
     if SETTINGS_PATH.exists():
         try:
             return json.loads(SETTINGS_PATH.read_text())
@@ -629,12 +645,93 @@ def load_settings() -> dict[str, Any]:
     return {}
 
 
+def _dotenv_value(name: str) -> str:
+    """Read NAME from $HERMES_HOME/.env when the process env does not carry it."""
+    root = Path(os.environ.get("HERMES_HOME") or (Path.home() / ".hermes"))
+    env_file = root / ".env"
+    if not env_file.exists():
+        return ""
+    try:
+        for line in env_file.read_text(encoding="utf-8", errors="replace").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            if key.strip() != name:
+                continue
+            return value.strip().strip("'\"")
+    except OSError:
+        return ""
+    return ""
+
+
+def _hermes_config_settings() -> dict[str, Any]:
+    """The config.yaml layer only: `plugins.entries.receipt-ledger.settings`."""
+    try:
+        from hermes_cli.config import load_config  # only present inside Hermes
+
+        config = load_config() or {}
+        entries = ((config.get("plugins") or {}).get("entries") or {})
+        raw = entries.get(HERMES_PLUGIN_ID) if isinstance(entries, dict) else None
+        settings = (raw or {}).get("settings") if isinstance(raw, dict) else None
+        if isinstance(settings, dict):
+            return {key: value for key, value in settings.items() if value not in ("", None)}
+    except Exception:  # noqa: BLE001 — standalone tests and cold imports have no Hermes config
+        return {}
+    return {}
+
+
+def hermes_settings() -> dict[str, Any]:
+    """Settings from Hermes config plus the .env secrets it declares.
+
+    `type: secret` fields never appear in config.yaml (Hermes stores them in
+    .env under the manifest's `env:` name), so they are resolved separately and
+    merged over the config layer.
+    """
+    entry = _hermes_config_settings()
+    for key, env_name in SECRET_ENV.items():
+        if entry.get(key):
+            continue
+        value = os.environ.get(env_name) or _dotenv_value(env_name)
+        if value:
+            entry[key] = value
+    return entry
+
+
+def settings_sources() -> dict[str, str]:
+    """Which layer supplied each key: 'hermes' (config/.env) or 'plugin' (settings.json)."""
+    hermes = hermes_settings()
+    plugin = load_settings()
+    sources: dict[str, str] = {}
+    for key in SETTINGS_KEYS:
+        if hermes.get(key):
+            sources[key] = "hermes"
+        elif plugin.get(key):
+            sources[key] = "plugin"
+    return sources
+
+
+def effective_settings() -> dict[str, Any]:
+    """What the scan should use: Hermes config wins, the pane's file fills gaps.
+
+    Hermes config is the managed layer (Settings -> Plugins, CLI, ansible), so a
+    value set there is not silently overridden by an older settings.json. Every
+    other key falls through to the pane's own file.
+    """
+    merged = load_settings()
+    merged.update(hermes_settings())
+    return merged
+
+
 def public_settings(settings: dict[str, Any] | None = None) -> dict[str, Any]:
     """Settings safe to send to the renderer: secrets become 'is it set?' flags."""
-    settings = load_settings() if settings is None else settings
+    resolve_layers = settings is None
+    settings = effective_settings() if resolve_layers else settings
     safe = {key: value for key, value in settings.items() if key not in SECRET_KEYS}
     for key in SECRET_KEYS:
         safe[f"{key}_set"] = bool(settings.get(key))
+    if resolve_layers:
+        safe["sources"] = settings_sources()
     return safe
 
 
@@ -662,7 +759,7 @@ def save_settings(settings: dict[str, Any]) -> dict[str, Any]:
 
 def configured(settings: dict[str, Any] | None = None) -> dict[str, Any]:
     """What the pane needs to decide between 'ready', 'set it up' and 'broken'."""
-    settings = load_settings() if settings is None else settings
+    settings = effective_settings() if settings is None else settings
     has_securo = bool(settings.get("securo_url"))
     has_credential = bool(settings.get("securo_token") or (settings.get("securo_email") and settings.get("securo_password")))
     has_files = bool(settings.get("transactions_csv") or settings.get("receipts_dir"))
@@ -688,7 +785,7 @@ def load_ledger() -> dict[str, Any] | None:
 
 
 def scan(settings: dict[str, Any] | None = None, *, client: Any = None) -> dict[str, Any]:
-    settings = settings or load_settings()
+    settings = settings or effective_settings()
     ledger = build_ledger(settings, securo_client_=client)
     save_ledger(ledger)
     return ledger

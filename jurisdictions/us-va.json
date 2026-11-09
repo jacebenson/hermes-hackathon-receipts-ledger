@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-va",
+  "name": "Virginia",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://tax.virginia.gov/",
+      "title": "Virginia Department of Taxation",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.scc.virginia.gov/",
+      "title": "State Corporation Commission",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/virginia",
+      "title": "IRS state government directory: Virginia",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.tax.virginia.gov/retail-sales-and-use-tax",
+      "title": "Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.tax.virginia.gov/withholding-tax",
+      "title": "Employer Withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "va-llc-annual-registration-fee",
+      "title": "Annual Registration Fees",
+      "applies_when": "All Virginia and foreign limited liability companies, each year after the year of formation.",
+      "form": "Annual registration fee",
+      "due_rule": "By the last day of the month in which the LLC was formed, annually after the formation year.",
+      "frequency": "annual",
+      "source_url": "https://www.scc.virginia.gov/businesses/maintaining-your-business/",
+      "quote": "The registration fee is due by the last day of the month in which it was formed.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
+}

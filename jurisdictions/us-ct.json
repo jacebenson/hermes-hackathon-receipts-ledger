@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "us-ct",
+  "name": "Connecticut",
+  "level": "state",
+  "confidence": "extracted",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://portal.ct.gov/drs",
+      "title": "Connecticut Department of Revenue Services",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://portal.ct.gov/SOTS",
+      "title": "Connecticut Secretary of the State",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/connecticut",
+      "title": "IRS state government directory: Connecticut",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://portal.ct.gov/drs/sales-tax/tax-information",
+      "title": "Sales & Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://portal.ct.gov/drs/withholding-taxes/tax-information",
+      "title": "Withholding Tax Information",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "ct-annual-filing",
+      "title": "LLC annual report",
+      "applies_when": "Connecticut LLCs and registered foreign LLCs after their first reporting year",
+      "form": "annual report",
+      "due_rule": "After January 1 and before April 1 each calendar year",
+      "frequency": "annual",
+      "source_url": "https://www.cga.ct.gov/current/pub/chap_613a.htm",
+      "quote": "Subsequent annual reports must be filed with the Secretary of the State after January first and before April first of each calendar year thereafter.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Connecticut's certificate chain does not validate, so the page was read with certificate checks disabled."
+}

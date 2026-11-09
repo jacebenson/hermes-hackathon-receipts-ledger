@@ -245,6 +245,259 @@ function SetupCard({ ctx, status, onSaved, onCancel }) {
   })
 }
 
+function Money({ value, tone }) {
+  return jsx('span', {
+    style: { fontFamily: 'var(--ui-font-mono, monospace)', fontSize: 12, color: tone || 'var(--ui-text-primary)' },
+    children: money(value)
+  })
+}
+
+const DECISION_LABELS = {
+  business: 'Business',
+  personal: 'Personal',
+  mixed: 'Mixed',
+  owner_reimbursement: 'LLC owes me',
+  owner_contribution: 'Money I put in'
+}
+
+function ClassificationPanel({ ctx, ledger, onChanged }) {
+  const [busy, setBusy] = useState('')
+  const [mixedFor, setMixedFor] = useState('')
+  const [pct, setPct] = useState('25')
+  const [basis, setBasis] = useState('')
+  const [notice, setNotice] = useState('')
+  const summary = ledger.classification_summary || {}
+  const queue = (ledger.review_queue || []).slice(0, 8)
+
+  const decide = async (row, decision, extra) => {
+    setBusy(row.id)
+    setNotice('')
+    try {
+      const result = await call(ctx, '/classification/rule', {
+        method: 'POST',
+        body: {
+          decision,
+          match: { vendor_contains: row.vendor },
+          ...extra,
+          note: `Set from the review queue for ${row.vendor}`
+        }
+      })
+      if (!result.ok) throw new Error(result.error || 'The rule was refused.')
+      setMixedFor('')
+      setNotice(`Saved. ${row.vendor} now follows that rule.`)
+      await onChanged()
+    } catch (err) {
+      setNotice(String(err.message || err))
+    } finally {
+      setBusy('')
+    }
+  }
+
+  const rows = [
+    ['Business', summary.business_dollars, 'var(--ui-text-primary)'],
+    ['Personal', summary.personal_dollars, 'var(--ui-text-secondary)'],
+    ['Mixed (business share)', summary.mixed_business_dollars, 'var(--ui-text-secondary)'],
+    ['LLC owes you', summary.reimbursable_to_owner_dollars, 'var(--ui-warning, #b9791f)'],
+    ['Unreviewed', summary.unreviewed_dollars, 'var(--ui-warning, #b9791f)']
+  ]
+
+  return jsx('div', { style: { marginTop: 22 }, children: [
+    jsx('div', { style: text.sectionTitle, children: 'Business or personal' }),
+    jsx('div', {
+      style: { ...text.faint, marginBottom: 8 },
+      children: summary.reconciles
+        ? 'Every charge sits in exactly one bucket. Nothing is counted as business until you decide it.'
+        : 'These totals do not reconcile yet, which means a record is incomplete. Treat them as provisional.'
+    }),
+    jsx('div', { style: { display: 'flex', gap: 22, flexWrap: 'wrap', marginBottom: 10 }, children:
+      rows.map(([label, value, tone]) => jsx('div', {
+        key: label,
+        style: { display: 'flex', flexDirection: 'column', gap: 2 },
+        children: [
+          jsx('span', { style: text.faint, children: label }),
+          jsx(Money, { value, tone })
+        ]
+      }))
+    }),
+    queue.length
+      ? jsx('div', { children: [
+        jsx('div', { style: { ...text.faint, marginBottom: 4 }, children: `${(ledger.review_queue || []).length} charges need a decision. The proposal is a suggestion, not a ruling.` }),
+        ...queue.map(row => jsx('div', { key: row.id, style: { ...text.card, padding: '8px 10px' }, children: [
+          jsx('div', { style: { display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }, children: [
+            jsx('span', { style: text.mono, children: row.date }),
+            jsx('span', { style: { fontWeight: 600 }, children: row.vendor }),
+            jsx(Money, { value: row.amount }),
+            jsx('span', { style: text.faint, children: row.account || row.card || '' }),
+            row.review && row.review.proposal && row.review.proposal.decision
+              ? jsx(Badge, { variant: row.review.proposal.confidence === 'high' ? 'default' : 'muted', children: `suggests ${DECISION_LABELS[row.review.proposal.decision] || row.review.proposal.decision}` })
+              : jsx(Badge, { variant: 'outline', children: 'no suggestion' })
+          ] }),
+          row.review && row.review.proposal && row.review.proposal.reasons
+            ? jsx('div', { style: { ...text.faint, marginTop: 3 }, children: row.review.proposal.reasons.join(' ') })
+            : null,
+          mixedFor === row.id
+            ? jsx('div', { style: { display: 'flex', gap: 6, marginTop: 6, alignItems: 'center', flexWrap: 'wrap' }, children: [
+              jsx(Input, { value: pct, onChange: event => setPct(event.target.value), style: { width: 70 }, 'aria-label': 'Business percent' }),
+              jsx('span', { style: text.faint, children: '% business, because' }),
+              jsx(Input, { value: basis, placeholder: '26% of a 180 sq ft office', onChange: event => setBasis(event.target.value), style: { flex: 1, minWidth: 160 }, 'aria-label': 'Basis for the percentage' }),
+              jsx(Button, {
+                size: 'sm',
+                disabled: busy === row.id || !basis,
+                onClick: () => decide(row, 'mixed', { business_pct: Number(pct), basis })
+              }, 'Save split')
+            ] })
+            : jsx('div', { style: { display: 'flex', gap: 6, marginTop: 6, flexWrap: 'wrap' }, children: [
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'business', {}) }, 'Business'),
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'personal', {}) }, 'Personal'),
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => setMixedFor(row.id) }, 'Mixed'),
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'owner_reimbursement', {}) }, 'LLC owes me')
+            ] })
+        ] }))
+      ] })
+      : jsx('div', { style: text.faint, children: summary.counts && summary.counts.charges
+        ? 'Nothing waiting. Every charge follows a rule you set.'
+        : 'No settled charges yet. Run a scan first.' }),
+    notice ? jsx('div', { style: { ...text.dim, marginTop: 6 }, children: notice }) : null
+  ] })
+}
+
+function JurisdictionPanel({ ctx, status }) {
+  const initial = (status && status.settings && status.settings.business_state) || ''
+  const [stateId, setStateId] = useState(initial ? `us-${String(initial).toLowerCase()}` : 'us-federal')
+  const [query, setQuery] = useState(initial || 'MN')
+  const [bundle, setBundle] = useState(null)
+  const [busy, setBusy] = useState('')
+  const [error, setError] = useState('')
+
+  const load = async id => {
+    setBusy('load')
+    setError('')
+    try {
+      const data = await call(ctx, `/jurisdictions?state_id=${encodeURIComponent(id)}`)
+      setBundle(data)
+      setStateId(id)
+    } catch (err) {
+      setError(String(err.message || err))
+    } finally {
+      setBusy('')
+    }
+  }
+
+  const go = () => {
+    const code = String(query || '').trim().toLowerCase()
+    const id = code.length === 2 ? `us-${code}` : code || 'us-federal'
+    load(id)
+  }
+
+  const record = bundle && bundle.record
+  const confidenceVariant = !record
+    ? 'muted'
+    : record.confidence === 'verified' ? 'success'
+      : record.confidence === 'extracted' ? 'default'
+        : record.confidence === 'seeded' ? 'muted' : 'warn'
+
+  return jsx('div', { style: { marginTop: 22 }, children: [
+    jsx('div', { style: { display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }, children: [
+      jsx('div', { style: text.sectionTitle, children: 'Where your business answers to' }),
+      jsx('div', { style: { ...text.faint, marginLeft: 'auto' }, children: bundle ? bundle.statement : 'federal plus fifty states and DC' })
+    ] }),
+    jsx('div', { style: { display: 'flex', gap: 6, marginBottom: 8, alignItems: 'center' }, children: [
+      jsx(Input, { value: query, placeholder: 'MN', onChange: event => setQuery(event.target.value), style: { width: 80 }, 'aria-label': 'State code' }),
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: go, disabled: busy !== '' }, busy === 'load' ? 'Loading…' : 'Show'),
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: () => { setQuery('US'); load('us-federal') } }, 'Federal')
+    ] }),
+    error ? jsx('div', { style: { color: 'var(--ui-danger, #c0392b)', fontSize: 12 }, children: error }) : null,
+    record
+      ? jsx('div', { style: text.card, children: [
+        jsx('div', { style: { display: 'flex', gap: 8, alignItems: 'center' }, children: [
+          jsx('span', { style: { fontWeight: 600 }, children: record.name }),
+          jsx(Badge, { variant: confidenceVariant, children: record.confidence }),
+          jsx('span', { style: { ...text.faint, marginLeft: 'auto' }, children: `checked ${record.updated_on}` })
+        ] }),
+        (record.obligations || []).length
+          ? jsx('div', { style: { marginTop: 8 }, children: record.obligations.map(item => jsx('div', { key: item.id, style: { padding: '6px 0', borderTop: '1px solid var(--ui-stroke-secondary)' }, children: [
+            jsx('div', { style: { display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }, children: [
+              jsx('span', { style: { fontWeight: 600 }, children: item.title }),
+              jsx('span', { style: text.faint, children: item.form }),
+              jsx(Badge, { variant: item.next_due ? 'default' : 'muted', children: item.next_due ? `next ${item.next_due}` : item.due_rule })
+            ] }),
+            jsx('div', { style: { ...text.faint, marginTop: 2 }, children: `"${item.quote}"` }),
+            jsx('div', { style: { ...text.faint, marginTop: 2, wordBreak: 'break-all' }, children: item.source_url })
+          ] })) })
+          : jsx('div', { style: { ...text.dim, marginTop: 6 }, children: record.confidence === 'unknown'
+            ? 'Sources could not be reached from here, so this record makes no claims. Open them in a browser.'
+            : 'No rule has been read for this jurisdiction yet. The official pages are listed below; your agent can fill this in.' }),
+        record.confidence === 'extracted'
+          ? jsx('div', { style: { ...text.faint, marginTop: 6 }, children: 'Quotes were copied from the live page and re-verified, but no person has read the rule yet.' })
+          : null,
+        jsx('div', { style: { ...text.faint, marginTop: 8 }, children: Object.entries(record.sources || {}).map(([key, source]) =>
+          jsx('div', { key, style: { display: 'flex', gap: 6, padding: '2px 0' }, children: [
+            jsx('span', { style: { width: 74, flexShrink: 0 }, children: key }),
+            jsx(Badge, { variant: source.status === 'ok' ? 'success' : source.status === 'blocked' ? 'warn' : 'destructive', children: source.status }),
+            jsx('span', { style: { wordBreak: 'break-all' }, children: source.url })
+          ] })
+        ) })
+      ] })
+      : null
+  ] })
+}
+
+function AuditPanel({ ctx }) {
+  const [data, setData] = useState(null)
+  const [busy, setBusy] = useState('')
+
+  const load = async () => {
+    setBusy('load')
+    try {
+      setData(await call(ctx, '/audit'))
+    } catch {
+      setData(null)
+    } finally {
+      setBusy('')
+    }
+  }
+
+  const clear = async () => {
+    setBusy('clear')
+    try {
+      await call(ctx, '/audit/clear', { method: 'POST' })
+      setData(await call(ctx, '/audit'))
+    } finally {
+      setBusy('')
+    }
+  }
+
+  if (!data) {
+    return jsx('div', { style: { marginTop: 22 }, children: [
+      jsx('div', { style: text.sectionTitle, children: 'What this plugin did' }),
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: load, disabled: busy !== '' }, busy === 'load' ? 'Loading…' : 'Show the journal')
+    ] })
+  }
+
+  return jsx('div', { style: { marginTop: 22 }, children: [
+    jsx('div', { style: { display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }, children: [
+      jsx('div', { style: text.sectionTitle, children: 'What this plugin did' }),
+      jsx('div', { style: { ...text.faint, marginLeft: 'auto' }, children: `${data.entries} entries, ${data.failures} failures` }),
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: load, disabled: busy !== '' }, 'Refresh'),
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: clear, disabled: busy !== '' }, 'Clear')
+    ] }),
+    jsx('div', { style: { ...text.dim, marginBottom: 8 }, children: [
+      data.last_scan ? `Last read: ${data.last_scan.at} (${data.last_scan.detail})` : 'Nothing read yet.',
+      ' ',
+      data.last_write ? `Last write: ${data.last_write.at} (${data.last_write.detail})` : 'Nothing written yet.'
+    ].join('') }),
+    (data.recent || []).slice(0, 8).map((entry, index) => jsx('div', { key: `${entry.at}-${index}`, style: { display: 'flex', gap: 8, padding: '2px 0', fontSize: 12 }, children: [
+      jsx('span', { style: { ...text.mono, color: 'var(--ui-text-quaternary)' }, children: entry.at.replace('T', ' ') }),
+      jsx(Badge, { variant: entry.ok ? 'muted' : 'destructive', children: entry.action }),
+      jsx('span', { style: { flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }, children: entry.detail || entry.target || '' })
+    ] })),
+    jsx('div', { style: { marginTop: 10 }, children: [
+      jsx('div', { style: { ...text.faint, fontWeight: 600, marginBottom: 3 }, children: 'What it will not do' }),
+      ...(data.limits || []).map(item => jsx('div', { key: item.title, style: { ...text.faint, padding: '2px 0' }, children: `${item.title} — ${item.detail}` }))
+    ] })
+  ] })
+}
+
 function LedgerPage({ ctx }) {
   const queryClient = useQueryClient()
   const [notice, setNotice] = useState('')
@@ -458,6 +711,19 @@ function LedgerPage({ ctx }) {
           )
         ] })
         : null,
+      jsx(ClassificationPanel, {
+        ctx,
+        ledger,
+        onChanged: async () => {
+          const [freshLedger, freshStatus] = await Promise.all([
+            call(ctx, '/ledger'),
+            call(ctx, '/status', { timeoutMs: 8000 })
+          ])
+          refresh(freshStatus, freshLedger)
+        }
+      }),
+      jsx(JurisdictionPanel, { ctx, status }),
+      jsx(AuditPanel, { ctx }),
       jsx('div', { style: { ...text.faint, marginTop: 18, paddingBottom: 12 }, children:
         'Receipts and charges stay on this machine. The only network call is to the Securo URL you set. Matched paper is not a tax determination — you and your accountant decide that.' })
     ]

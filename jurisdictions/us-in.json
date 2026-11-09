@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-in",
+  "name": "Indiana",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.in.gov/dor/",
+      "title": "Indiana Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://in.gov/sos/business/index.htm",
+      "title": "Secretary of State - Business Services Division",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/indiana",
+      "title": "IRS state government directory: Indiana",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.in.gov/dor/i-am-a/business-corp/sales-tax",
+      "title": "Sales Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.in.gov/dor/i-am-a/business-corp/withholding",
+      "title": "Withholding Income",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://in.gov/sos/business/index.htm. Indiana's INBiz pages render as JavaScript shells and the legacy guide is gone, so no first-party deadline sentence could be read automatically. Open the registry link and confirm."
+}

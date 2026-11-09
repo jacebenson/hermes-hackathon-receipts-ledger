@@ -14,8 +14,10 @@ PLUGIN_DIR="$HERMES_HOME/plugins/receipt-ledger"
 mkdir -p "$DESKTOP_DIR" "$PLUGIN_DIR"
 cp "$HERE/desktop/plugin.js" "$DESKTOP_DIR/plugin.js"
 # Replace the backend wholesale so a renamed or deleted module never lingers.
-rm -rf "$PLUGIN_DIR/dashboard"
+rm -rf "$PLUGIN_DIR/dashboard" "$PLUGIN_DIR/jurisdictions"
 cp -r "$HERE/dashboard" "$PLUGIN_DIR/dashboard"
+cp -r "$HERE/jurisdictions" "$PLUGIN_DIR/jurisdictions"
+cp "$HERE/__init__.py" "$PLUGIN_DIR/__init__.py"
 cp "$HERE/plugin.yaml" "$PLUGIN_DIR/plugin.yaml"
 rm -rf "$PLUGIN_DIR/dashboard/__pycache__"
 
