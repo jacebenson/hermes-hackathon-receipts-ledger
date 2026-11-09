@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-dc",
+  "name": "District of Columbia",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://otr.cfo.dc.gov/",
+      "title": "Office of Tax and Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://dc.gov/agency/department-licensing-and-consumer-protection",
+      "title": "DC Department of Licensing and Consumer Protection",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/district-of-columbia",
+      "title": "IRS state government directory: District Of Columbia",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://otr.cfo.dc.gov/page/sales-use-tax",
+      "title": "Sales & Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://otr.cfo.dc.gov/page/withholding-tax-forms",
+      "title": "Withholding Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Registry authority selected from the DC agency directory rather than the Office of the Secretary. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success."
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-co",
+  "name": "Colorado",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://cdor.colorado.gov/",
+      "title": "Colorado Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "registry": {
+      "url": "https://www.sos.state.co.us/",
+      "title": "Office of the Secretary of State",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/colorado",
+      "title": "IRS state government directory: Colorado",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://tax.colorado.gov/sales-use-tax",
+      "title": "Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "withholding": {
+      "url": "https://tax.colorado.gov/withholding-tax",
+      "title": "Wage withholding tax",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://cdor.colorado.gov/. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified. The withholding topic was selected by following links from the official revenue website. No obligation was verified. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success."
+}

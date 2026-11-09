@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "us-de",
+  "name": "Delaware",
+  "level": "state",
+  "confidence": "verified",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://revenue.delaware.gov/",
+      "title": "Department of Finance - Division of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://corp.delaware.gov/",
+      "title": "Delaware Division of Corporations",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/delaware",
+      "title": "IRS state government directory: Delaware",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://revenue.delaware.gov/business-tax-forms/doing-business-in-delaware/step-4-gross-receipts-taxes/",
+      "title": "Step 4: Learn About Gross Receipts Taxes, sales tax treatment",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://revenue.delaware.gov/frequently-asked-questions/withholding-tax-faqs/",
+      "title": "Withholding Tax FAQs",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "annual_entity_tax": {
+      "url": "https://corp.delaware.gov/alt-entitytaxinstructions/",
+      "title": "LLC/LP/GP Franchise Tax Instructions",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "de-annual-entity-tax",
+      "title": "Annual LLC/partnership tax",
+      "applies_when": "Domestic and foreign LLCs, LPs and GPs formed or registered in Delaware",
+      "form": "Annual entity tax payment, no Annual Report required",
+      "due_rule": "On or before June 1 for the prior year",
+      "frequency": "annual",
+      "source_url": "https://corp.delaware.gov/alt-entitytaxinstructions/",
+      "quote": "All Domestic and Foreign Limited Liability Companies, Limited Partnerships, and General Partnerships formed or registered in Delaware are required to pay an annual tax of $400.00. There is no requirement to file an Annual Report.\n\nThe annual taxes for the prior year are due on or before June 1st.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Annual LLC/LP/GP entity tax verified from the Division of Corporations instructions. The quoted amount is currently published, not a historical-year determination. The sales_tax entry is the official gross receipts taxability overview, not a sales tax filing obligation. Other obligations are not verified."
+}

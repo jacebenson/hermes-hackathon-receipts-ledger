@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-ny",
+  "name": "New York",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.tax.ny.gov/",
+      "title": "Department of Taxation and Finance",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.dos.ny.gov/corps/index.html",
+      "title": "Existing Corporations and Businesses",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/new-york",
+      "title": "IRS state government directory: New York",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.tax.ny.gov/bus/st/stidx.htm",
+      "title": "Sales and use tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.tax.ny.gov/bus/wt/wtidx.htm",
+      "title": "Withholding tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.dos.ny.gov/corps/index.html."
+}

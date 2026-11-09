@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-nm",
+  "name": "New Mexico",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.tax.newmexico.gov/Default.aspx",
+      "title": "New Mexico Taxation and Revenue Department",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.sos.nm.gov/business-services/",
+      "title": "Secretary of State \u2013 Business Services",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/new-mexico",
+      "title": "IRS state government directory: New Mexico",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.tax.newmexico.gov/governments/gross-receipts-location-code-and-tax-rate-map/",
+      "title": "Gross Receipts Location Code and Tax Rate Map",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.tax.newmexico.gov/businesses/wage-withholding-tax/",
+      "title": "Wage Withholding Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+}

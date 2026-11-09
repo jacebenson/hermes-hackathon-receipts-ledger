@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-nd",
+  "name": "North Dakota",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.nd.gov/tax/",
+      "title": "Office of State Tax Commissioner",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.nd.gov/business/business-services",
+      "title": "Secretary of State - Business services",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/north-dakota",
+      "title": "IRS state government directory: North Dakota",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.tax.nd.gov/sales-and-use-tax",
+      "title": "Sales and Use",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.tax.nd.gov/income-tax-withholding",
+      "title": "Income tax withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+}

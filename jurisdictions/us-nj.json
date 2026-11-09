@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-nj",
+  "name": "New Jersey",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.state.nj.us/treasury/taxation/",
+      "title": "Division of Taxation",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.business.nj.gov/",
+      "title": "Business portal",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/new-jersey",
+      "title": "IRS state government directory: New Jersey",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.nj.gov/treasury/taxation/businesses/salestax/index.shtml",
+      "title": "Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.nj.gov/treasury/taxation/businesses/payroll/index.shtml",
+      "title": "Employer Withholding (Payroll) Taxes",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+}

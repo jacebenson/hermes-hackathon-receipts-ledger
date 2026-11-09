@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "id": "us-federal",
+  "name": "United States federal",
+  "level": "federal",
+  "confidence": "verified",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.irs.gov/",
+      "title": "Internal Revenue Service",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number",
+      "title": "IRS employer identification number, not state entity registration",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/employment-tax-due-dates",
+      "title": "Employment tax due dates",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "estimated_tax": {
+      "url": "https://www.irs.gov/payments/pay-as-you-go-so-you-wont-owe-a-guide-to-withholding-estimated-taxes-and-ways-to-avoid-the-estimated-tax-penalty",
+      "title": "Pay as you go: estimated tax payment dates",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "information_returns": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/am-i-required-to-file-a-form-1099-or-other-information-return",
+      "title": "Form 1099 reporting thresholds",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "s_corporations": {
+      "url": "https://www.irs.gov/instructions/i1120s",
+      "title": "Instructions for Form 1120-S",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "self_employment": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/self-employed-individuals-tax-center",
+      "title": "Self-employed individuals tax center",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [
+    {
+      "id": "federal-individual-estimated-tax-1",
+      "title": "Individual estimated tax payment 1",
+      "applies_when": "Individuals who must make estimated tax payments, including self-employed individuals",
+      "form": "Form 1040-ES",
+      "due_rule": "April 15; next business day if Saturday, Sunday or legal holiday",
+      "frequency": "quarterly",
+      "source_url": "https://www.irs.gov/payments/pay-as-you-go-so-you-wont-owe-a-guide-to-withholding-estimated-taxes-and-ways-to-avoid-the-estimated-tax-penalty",
+      "quote": "April 15 for income earned January 1 to March 31\n\nIf these due dates fall on a Saturday, Sunday or legal holiday, the payments are due the next business day.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-individual-estimated-tax-2",
+      "title": "Individual estimated tax payment 2",
+      "applies_when": "Individuals who must make estimated tax payments, including self-employed individuals",
+      "form": "Form 1040-ES",
+      "due_rule": "June 15; next business day if Saturday, Sunday or legal holiday",
+      "frequency": "quarterly",
+      "source_url": "https://www.irs.gov/payments/pay-as-you-go-so-you-wont-owe-a-guide-to-withholding-estimated-taxes-and-ways-to-avoid-the-estimated-tax-penalty",
+      "quote": "June 15 for income earned April 1 to May 31\n\nIf these due dates fall on a Saturday, Sunday or legal holiday, the payments are due the next business day.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-individual-estimated-tax-3",
+      "title": "Individual estimated tax payment 3",
+      "applies_when": "Individuals who must make estimated tax payments, including self-employed individuals",
+      "form": "Form 1040-ES",
+      "due_rule": "September 15; next business day if Saturday, Sunday or legal holiday",
+      "frequency": "quarterly",
+      "source_url": "https://www.irs.gov/payments/pay-as-you-go-so-you-wont-owe-a-guide-to-withholding-estimated-taxes-and-ways-to-avoid-the-estimated-tax-penalty",
+      "quote": "September 15 for income earned June 1 to August 31\n\nIf these due dates fall on a Saturday, Sunday or legal holiday, the payments are due the next business day.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-individual-estimated-tax-4",
+      "title": "Individual estimated tax payment 4",
+      "applies_when": "Individuals who must make estimated tax payments, including self-employed individuals",
+      "form": "Form 1040-ES",
+      "due_rule": "January 15 of the following year; next business day if Saturday, Sunday or legal holiday",
+      "frequency": "quarterly",
+      "source_url": "https://www.irs.gov/payments/pay-as-you-go-so-you-wont-owe-a-guide-to-withholding-estimated-taxes-and-ways-to-avoid-the-estimated-tax-penalty",
+      "quote": "January 15 of the following year for income earned September 1 to December 31\n\nIf these due dates fall on a Saturday, Sunday or legal holiday, the payments are due the next business day.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-1099-nec-issuance",
+      "title": "File and furnish nonemployee compensation information",
+      "applies_when": "Businesses making reportable nonemployee compensation payments, subject to exceptions and reporting threshold",
+      "form": "Form 1099-NEC",
+      "due_rule": "January 31 following the payment year; next business day if Saturday, Sunday or legal holiday",
+      "frequency": "annual",
+      "source_url": "https://www.irs.gov/businesses/small-businesses-self-employed/employment-tax-due-dates",
+      "quote": "File Form 1099-NEC with Form 1096, Annual Summary and Transmittal of U.S. Information Returns, must be filed with the IRS and provided to recipients by Jan. 31.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-1099-nec-threshold",
+      "title": "Nonemployee compensation reporting threshold by payment year",
+      "applies_when": "Trade or business payments reportable on Form 1099-NEC; backup withholding can require reporting regardless of amount",
+      "form": "Form 1099-NEC",
+      "due_rule": "Apply the threshold for the payment year before preparing the annual information return",
+      "frequency": "annual",
+      "source_url": "https://www.irs.gov/businesses/small-businesses-self-employed/am-i-required-to-file-a-form-1099-or-other-information-return",
+      "quote": "For payments made before 2026, the reporting threshold is $600. For payments made in 2026, the reporting threshold is $2,000. For payments made after 2026, see Pub. 1099 for the inflation-adjusted reporting threshold.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-w2",
+      "title": "File and furnish wage statements",
+      "applies_when": "Employers reporting employee wages and employment taxes withheld",
+      "form": "Forms W-2 and W-3",
+      "due_rule": "January 31 following the wage year; next business day if Saturday, Sunday or legal holiday",
+      "frequency": "annual",
+      "source_url": "https://www.irs.gov/businesses/small-businesses-self-employed/employment-tax-due-dates",
+      "quote": "Forms filed annually with a due date of Jan. 31\n\nFile Forms W-2 with Form W-3 with the SSA to report wages paid and employment taxes withheld from these wages during the previous tax year. Forms W-2 are required to be provided to employees by Jan. 31.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-941",
+      "title": "Employer quarterly federal tax return",
+      "applies_when": "Employers paying wages subject to employment taxes; approved annual filers and agricultural employers have separate rules",
+      "form": "Form 941",
+      "due_rule": "April 30, July 31, October 31, January 31 for prior quarter; next business day if weekend or legal holiday; 10 additional calendar days if all taxes timely deposited",
+      "frequency": "quarterly",
+      "source_url": "https://www.irs.gov/businesses/small-businesses-self-employed/employment-tax-due-dates",
+      "quote": "Forms filed quarterly with due dates of April 30, July 31, Oct. 31 and Jan. 31 (for the fourth quarter of the previous calendar year)\n\nFile Form 941 if you paid wages subject to employment taxes with the IRS for each quarter by the last day of the month that follows the end of the quarter. If you timely deposited all taxes when due, then you have 10 additional calendar days to file the return.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-1120-s",
+      "title": "S corporation income tax return after an accepted election",
+      "applies_when": "A corporation or other entity whose Form 2553 election was accepted by the IRS and remains in effect",
+      "form": "Form 1120-S",
+      "due_rule": "Generally the 15th day of the 3rd month after the tax year ends; next business day if Saturday, Sunday or legal holiday",
+      "frequency": "annual",
+      "source_url": "https://www.irs.gov/instructions/i1120s",
+      "quote": "A corporation or other entity must file Form 1120-S if (a) it elected to be an S corporation by filing Form 2553, (b) the IRS accepted the election, and (c) the election remains in effect.\n\nGenerally, an S corporation must file Form 1120-S by the 15 day of the 3rd month after the end of its tax year.",
+      "verified_on": "2026-11-09"
+    },
+    {
+      "id": "federal-self-employment",
+      "title": "Schedule C business income and Schedule SE self-employment tax",
+      "applies_when": "Self-employed sole proprietors and gig workers, subject to filing requirements",
+      "form": "Schedule C (Form 1040) and Schedule SE (Form 1040 or 1040-SR)",
+      "due_rule": "File with the annual income tax return; estimated payments have separate quarterly deadlines",
+      "frequency": "annual",
+      "source_url": "https://www.irs.gov/businesses/small-businesses-self-employed/self-employed-individuals-tax-center",
+      "quote": "Self-employed individuals generally must pay self-employment (SE) tax as well as income tax.\n\nTo file your annual income tax return, you will need to use Schedule C (Form 1040), Profit or Loss from Business (Sole Proprietorship), to report any income or loss from a business you operated or profession you practiced as a sole proprietor, or gig work performed.\n\nUse the income or loss calculated on Schedule C to calculate the amount of Social Security and Medicare taxes you should have paid during the year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Selected federal obligations only, not a complete compliance checklist. The registry source is EIN registration, not business formation. Form 2553 makes the S corporation election; Form 1120-S is the return after an accepted election. Quarterly dates are general dates, subject to weekends, legal holidays and special relief. Tax deposits have different deadlines from returns. The 1099 threshold is $600 before 2026, $2,000 in 2026, with inflation adjustment after 2026. Check the current-year instructions; do not apply the 2026 amount automatically to later years."
+}

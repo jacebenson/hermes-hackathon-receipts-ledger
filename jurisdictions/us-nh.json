@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-nh",
+  "name": "New Hampshire",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.revenue.nh.gov/",
+      "title": "Department of Revenue Administration",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "registry": {
+      "url": "https://www.sos.nh.gov/corporations-0",
+      "title": "Secretary of State - Corporation Division",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/new-hampshire",
+      "title": "IRS state government directory: New Hampshire",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.revenue.nh.gov/resource-center/frequently-asked-questions/general-information",
+      "title": "General Information FAQ: Does New Hampshire have a sales tax?",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "withholding": {
+      "url": "https://www.revenue.nh.gov/",
+      "title": "Withholding research entry point; topic page not confirmed",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Unconfirmed source URLs: https://www.revenue.nh.gov/, https://www.sos.nh.gov/corporations-0. The sales_tax topic is the official general-information FAQ reached through the revenue FAQ directory. No obligation was verified. Direct network-check failures remain recorded even when the extraction service can read a page."
+}

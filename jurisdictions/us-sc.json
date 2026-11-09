@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-sc",
+  "name": "South Carolina",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://dor.sc.gov/",
+      "title": "South Carolina Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.sc.gov/",
+      "title": "South Carolina Secretary of State",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/south-carolina",
+      "title": "IRS state government directory: South Carolina",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://dor.sc.gov/sales-use-tax-index",
+      "title": "Sales Taxes",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://dor.sc.gov/withholding",
+      "title": "Withholding Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-mo",
+  "name": "Missouri",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://dor.mo.gov/taxation/business/",
+      "title": "Department of Revenue - Business Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.sos.mo.gov/business",
+      "title": "Secretary of State - Businesses",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/missouri",
+      "title": "IRS state government directory: Missouri",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://dor.mo.gov/taxation/business/tax-types/sales-use/rate-map.html",
+      "title": "Sales and Use Tax Rate Map",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://dor.mo.gov/taxation/business/tax-types/withholding",
+      "title": "Withholding Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+}

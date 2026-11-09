@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-ga",
+  "name": "Georgia",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://dor.georgia.gov/",
+      "title": "Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.ga.gov/index.php/corporations",
+      "title": "Secretary of State - Corporations Division",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/georgia",
+      "title": "IRS state government directory: Georgia",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://dor.georgia.gov/taxes/business-taxes/sales-use-tax",
+      "title": "Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://dor.georgia.gov/g-4-employee-withholding",
+      "title": "Employee withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://sos.ga.gov/index.php/corporations. The withholding topic was selected by following links from the official revenue website. No obligation was verified."
+}

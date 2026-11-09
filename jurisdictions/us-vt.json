@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-vt",
+  "name": "Vermont",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://tax.vermont.gov/",
+      "title": "Vermont Department of Taxes",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://bizfilings.vermont.gov/login",
+      "title": "Vermont - Business Services Division",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/vermont",
+      "title": "IRS state government directory: Vermont",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://tax.vermont.gov/exempt-items",
+      "title": "What's Taxable and Exempt",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://tax.vermont.gov/sites/tax/files/documents/W-4VT.pdf",
+      "title": "W-4VT, Employee's Withholding Allowance Certificate",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-tn",
+  "name": "Tennessee",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.tn.gov/revenue/",
+      "title": "Tennessee Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.tn.gov/business-services",
+      "title": "Secretary of State - Division of Business Services",
+      "checked_on": "2026-11-09",
+      "status": "blocked"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/tennessee",
+      "title": "IRS state government directory: Tennessee",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.tn.gov/content/tn/revenue/taxes/sales-and-use-tax.html",
+      "title": "Sales and Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.tn.gov/revenue/",
+      "title": "Withholding research entry point; topic page not confirmed",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Unconfirmed source URLs: https://sos.tn.gov/business-services. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success."
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-me",
+  "name": "Maine",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.maine.gov/revenue/",
+      "title": "Revenue Services",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.maine.gov/sos/corporations-commissions/corporations-business-services",
+      "title": "Secretary of State - Corporations",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/maine",
+      "title": "IRS state government directory: Maine",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.maine.gov/revenue/taxes/sales-use-service-provider-tax",
+      "title": "Sales Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.maine.gov/revenue/taxes/income-estate-tax/employer-withholding",
+      "title": "Employer Withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. The Employer Withholding link without trailing whitespace is independently present on the revenue page and answered HTTP 200."
+}

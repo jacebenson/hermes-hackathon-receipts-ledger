@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-ne",
+  "name": "Nebraska",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://revenue.nebraska.gov/",
+      "title": "Department of Revenue",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://sos.nebraska.gov/business-services/corporate-and-business",
+      "title": "Secretary of State - Corporate and Business",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/nebraska",
+      "title": "IRS state government directory: Nebraska",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://revenue.nebraska.gov/businesses/nebraska-sales-and-use-tax",
+      "title": "Sales and use tax rates and information",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://revenue.nebraska.gov/businesses/nebraska-income-tax-withholding",
+      "title": "Income tax withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-md",
+  "name": "Maryland",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.marylandtaxes.gov/",
+      "title": "Comptroller of Maryland - Information for Business Taxpayers",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://dat.maryland.gov/businesses/Pages/default.aspx",
+      "title": "Charter Business Services",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/maryland",
+      "title": "IRS state government directory: Maryland",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://services.marylandcomptroller.gov/taxes/en/sales-and-use-tax?id=kb_article_view&sysparm_article=KB0010107",
+      "title": "Sales & Use Tax",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.marylandtaxes.gov/",
+      "title": "Withholding research entry point; topic page not confirmed",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim."
+}

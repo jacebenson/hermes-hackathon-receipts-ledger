@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-hi",
+  "name": "Hawaii",
+  "level": "state",
+  "confidence": "seeded",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://tax.hawaii.gov/",
+      "title": "Department of Taxation",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://cca.hawaii.gov/breg/",
+      "title": "Business Registration Division",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/hawaii",
+      "title": "IRS state government directory: Hawaii",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://tax.hawaii.gov/get",
+      "title": "General Excise Tax Information",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://tax.hawaii.gov/",
+      "title": "Withholding research entry point; topic page not confirmed",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified."
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "us-wi",
+  "name": "Wisconsin",
+  "level": "state",
+  "confidence": "unknown",
+  "updated_on": "2026-11-09",
+  "sources": {
+    "revenue": {
+      "url": "https://www.revenue.wi.gov/Pages/Businesses/home.aspx",
+      "title": "Wisconsin Department of Revenue - Businesses",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "registry": {
+      "url": "https://www.wdfi.org/corporations/",
+      "title": "Business Entity General Information",
+      "checked_on": "2026-11-09",
+      "status": "unconfirmed"
+    },
+    "directory": {
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/wisconsin",
+      "title": "IRS state government directory: Wisconsin",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "sales_tax": {
+      "url": "https://www.revenue.wi.gov/Pages/SalesAndUse/Home.aspx",
+      "title": "State and county sales and use taxes",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    },
+    "withholding": {
+      "url": "https://www.revenue.wi.gov/Pages/Withholding/home.aspx",
+      "title": "Employer withholding",
+      "checked_on": "2026-11-09",
+      "status": "ok"
+    }
+  },
+  "obligations": [],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.wdfi.org/corporations/. Automated check could not reach one or more official hosts; open the links in a browser and confirm before relying on this record."
+}
