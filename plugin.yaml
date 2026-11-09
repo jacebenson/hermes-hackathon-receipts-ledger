@@ -1,6 +1,7 @@
 name: receipt-ledger
-version: "0.1.0"
-description: Receipt ledger for the desktop app — matches charges to receipt files,
-  drops duplicate scans, lists what paper is missing and the portal to get it, and
-  names the structural fixes that stop the yearly scramble.
+version: "0.2.0"
+description: Receipt ledger for the desktop app. Reads charges and attachments from
+  a self-hosted Securo instance (or a CSV export), marks every charge as paper or
+  missing, names the portal to get what is missing, and writes one zip for the
+  accountant.
 requires_hermes: ">=0.21.0"
