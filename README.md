@@ -74,9 +74,15 @@ is deliberate: a default is a claim you did not make.
 the business registry, the sales-tax source and the withholding source, each
 with a checked date and a status. Three tiers:
 
-- **verified** — someone opened the government page and copied the sentence
-- **seeded** — official sources answered, but no rule was read
+- **verified** — a person opened the government page, read the rule and copied the sentence
+- **extracted** — a script copied the sentence from the live page and re-checked that it still appears there; nobody has read the rule yet
+- **seeded** — official sources answered, but no rule has been read
 - **unknown** — the hosts could not be reached at all
+
+`scripts/extract_obligations.py` proposes candidate sentences and
+`scripts/promote_candidates.py` promotes them — refusing any quote that is not a
+literal substring of the page it cites, so a hallucinated deadline cannot reach
+the bundle. `_candidates/` is the staging area, and it is not shipped as fact.
 
 Minnesota's annual renewal and Delaware's annual entity tax are quoted as worked
 examples, and the federal record carries ten quoted obligations. Every other

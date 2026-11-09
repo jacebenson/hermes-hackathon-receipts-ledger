@@ -3,7 +3,7 @@
   "id": "us-sc",
   "name": "South Carolina",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "sc-annual-corporate-tax-return",
+      "title": "Annual corporate tax return",
+      "applies_when": "South Carolina corporate taxable entities other than S corporations and tax-exempt organizations; initial/final returns excepted",
+      "form": "Corporate income tax return",
+      "due_rule": "15th day of the fourth month after taxable-year close",
+      "frequency": "annual",
+      "source_url": "https://dor.sc.gov/business-income-taxes/corporate",
+      "quote": "All corporate taxable entities (other than S Corporations and Tax Exempt Organizations) file annually on or before the 15th day of the fourth month after the close of the taxable year except for the initial and/or final return.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

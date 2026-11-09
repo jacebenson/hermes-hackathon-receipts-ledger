@@ -3,7 +3,7 @@
   "id": "us-dc",
   "name": "District of Columbia",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Registry authority selected from the DC agency directory rather than the Office of the Secretary. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success."
+  "obligations": [
+    {
+      "id": "dc-biennial-report",
+      "title": "Biennial report",
+      "applies_when": "Domestic filing entities, domestic LLPs and registered foreign entities subject to section 29-102.11",
+      "form": "biennial report",
+      "due_rule": "Subsequent reports by April 1 of each second calendar year after the first report",
+      "frequency": "biennial",
+      "source_url": "https://code.dccouncil.gov/us/dc/council/code/sections/29-102.11",
+      "quote": "Subsequent biennial reports shall be delivered to the Mayor by April 1st of each 2nd calendar year thereafter.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Registry authority selected from the DC agency directory rather than the Office of the Secretary. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

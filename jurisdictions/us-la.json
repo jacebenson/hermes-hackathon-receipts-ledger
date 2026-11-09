@@ -38,5 +38,5 @@
     }
   },
   "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Louisiana's official FAQ confirms annual filing but states no ordinary due date, only revocation-cure deadlines. A person needs to read the statute."
 }

@@ -3,7 +3,7 @@
   "id": "us-or",
   "name": "Oregon",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified."
+  "obligations": [
+    {
+      "id": "or-annual-report",
+      "title": "Annual report or renewal",
+      "applies_when": "Oregon registered business entities other than assumed business names",
+      "form": "Annual Report or Renewal",
+      "due_rule": "Anniversary date of original filing each year",
+      "frequency": "annual",
+      "source_url": "https://sos.oregon.gov/business/pages/obr-annual-report-renewal.aspx",
+      "quote": "Your renewal is due on the anniversary date of the original filing.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

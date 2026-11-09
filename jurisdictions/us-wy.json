@@ -3,7 +3,7 @@
   "id": "us-wy",
   "name": "Wyoming",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified."
+  "obligations": [
+    {
+      "id": "wy-annual-report",
+      "title": "Annual Reports",
+      "applies_when": "Corporations, LLCs, LPs, RLLPs and SFs.",
+      "form": "Annual Report",
+      "due_rule": "First day of the anniversary month of formation.",
+      "frequency": "annual",
+      "source_url": "https://wyobiz.wyo.gov/Business/AnnualReport.aspx",
+      "quote": "Annual Reports for corporations, LLCs, LPs, RLLPs and SFs are due on the first day of the anniversary month of formation.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

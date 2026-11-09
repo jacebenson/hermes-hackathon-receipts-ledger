@@ -3,7 +3,7 @@
   "id": "us-ms",
   "name": "Mississippi",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "ms-annual-report",
+      "title": "Annual report",
+      "applies_when": "For-profit corporations and LLCs operating in Mississippi",
+      "form": "Annual Report",
+      "due_rule": "April 15 each year; filing opens January 1",
+      "frequency": "annual",
+      "source_url": "https://www.sos.ms.gov/business-services/annual-reports",
+      "quote": "The Annual Report for profit corporations and limited liability companies can be filed any time on or after January 1st of each year and are due by April 15th of that year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

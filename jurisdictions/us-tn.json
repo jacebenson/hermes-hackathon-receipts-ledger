@@ -3,7 +3,7 @@
   "id": "us-tn",
   "name": "Tennessee",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Unconfirmed source URLs: https://sos.tn.gov/business-services. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success."
+  "obligations": [
+    {
+      "id": "tn-annual-franchise-excise-filing",
+      "title": "Annual franchise and excise tax filing",
+      "applies_when": "Calendar-year corporations, limited partnerships, LLCs and business trusts subject to Tennessee franchise/excise taxes, excluding exempt entities",
+      "form": "Annual franchise and excise tax filing",
+      "due_rule": "April 15 of following year for January 1\u2013December 31 tax year",
+      "frequency": "annual",
+      "source_url": "https://www.tn.gov/revenue/taxes/franchise---excise-tax/due-dates-and-tax-rates.html",
+      "quote": "For businesses with a January 1 - December 31 calendar year, this tax is due on April 15 of the following year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Unconfirmed source URLs: https://sos.tn.gov/business-services. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success. Quote re-checked against the page as read by the extraction service; the host refuses direct requests."
 }

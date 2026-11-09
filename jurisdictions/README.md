@@ -2,11 +2,12 @@
 
 This directory holds 52 versioned JSON records: US federal, the 50 states, and the District of Columbia. Rules are data. The validator and source checker contain no tax rates, filing thresholds, or deadline calculations. There are no plugin engine or UI changes.
 
-This is a source directory with a small set of quoted obligations, not a complete compliance checklist. An empty `obligations` array means no rule has been verified here. It does not mean a business has no obligations.
+This is a source directory with quoted obligations, not a complete compliance checklist. 42 records carry one extracted obligation each — normally the annual report, renewal or franchise filing every registered entity faces — and three carry a rule a person read. An empty `obligations` array means no rule was found here. It does not mean a business has no obligations.
 
 ## Confidence is evidence, not coverage
 
 - `verified`: a person opened and read the cited rule and copied the quote. At least one obligation exists, and every listed source has status `ok`. Verification applies to the listed obligations only, not every tax administered by that jurisdiction.
+- `extracted`: a script copied the sentence from the live page and re-checked that it still appears there (`scripts/promote_candidates.py` refuses any quote that is not a literal substring of the page it cites). Nobody has read the rule yet. The page a quote came from must have answered; provenance links that a host refuses may stay unconfirmed.
 - `seeded`: every source URL belongs to an official directory and answered — either with a page (`ok`) or with a refusal (`blocked`). No obligation was read and verified, so obligations stay empty.
 - `unknown`: at least one source could not be reached at all. Obligations stay empty. A blocked request is a finding, not permission to guess the rule.
 

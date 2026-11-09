@@ -3,7 +3,7 @@
   "id": "us-fl",
   "name": "Florida",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim."
+  "obligations": [
+    {
+      "id": "fl-annual-filing",
+      "title": "Annual report",
+      "applies_when": "Active Florida business entities required to file annual reports",
+      "form": "annual report",
+      "due_rule": "May 1 to avoid a late fee for mailed check or money-order payments",
+      "frequency": "annual",
+      "source_url": "https://dos.fl.gov/sunbiz/manage-business/efile/annual-report/",
+      "quote": "Your payment voucher and check or money order must be postmarked and mailed on or before May 1 to avoid a late fee.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

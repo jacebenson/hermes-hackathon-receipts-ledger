@@ -38,5 +38,5 @@
     }
   },
   "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Registry selected from Michigan LARA, linked by the state agency directory, because the Secretary of State does not administer entity filings."
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Registry selected from Michigan LARA, linked by the state agency directory, because the Secretary of State does not administer entity filings. Michigan's filing pages refused automated requests (403), so no quote could be verified."
 }

@@ -3,7 +3,7 @@
   "id": "us-ks",
   "name": "Kansas",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. The withholding topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified."
+  "obligations": [
+    {
+      "id": "ks-information-report",
+      "title": "Biennial information report",
+      "applies_when": "For-profit businesses on file with the Kansas Secretary of State",
+      "form": "Information Report",
+      "due_rule": "April 15 in the reporting year, using formation-year parity",
+      "frequency": "biennial",
+      "source_url": "https://sos.ks.gov/businesses/information-reports.html",
+      "quote": "All for profit businesses are due by April 15th of their respective odd or even year, and all not for profit businesses are due by June 15th of their respective odd or even year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. The withholding topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

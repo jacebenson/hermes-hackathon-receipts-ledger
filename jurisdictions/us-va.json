@@ -3,7 +3,7 @@
   "id": "us-va",
   "name": "Virginia",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "va-llc-annual-registration-fee",
+      "title": "Annual Registration Fees",
+      "applies_when": "All Virginia and foreign limited liability companies, each year after the year of formation.",
+      "form": "Annual registration fee",
+      "due_rule": "By the last day of the month in which the LLC was formed, annually after the formation year.",
+      "frequency": "annual",
+      "source_url": "https://www.scc.virginia.gov/businesses/maintaining-your-business/",
+      "quote": "The registration fee is due by the last day of the month in which it was formed.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

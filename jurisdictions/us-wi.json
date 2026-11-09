@@ -3,7 +3,7 @@
   "id": "us-wi",
   "name": "Wisconsin",
   "level": "state",
-  "confidence": "unknown",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -13,10 +13,10 @@
       "status": "ok"
     },
     "registry": {
-      "url": "https://www.wdfi.org/corporations/",
-      "title": "Business Entity General Information",
+      "url": "https://dfi.wi.gov/Pages/BusinessServices/BusinessEntities/FAQ.aspx",
+      "title": "Wisconsin DFI business entity FAQ",
       "checked_on": "2026-11-09",
-      "status": "unconfirmed"
+      "status": "ok"
     },
     "directory": {
       "url": "https://www.irs.gov/businesses/small-businesses-self-employed/wisconsin",
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.wdfi.org/corporations/. Automated check could not reach one or more official hosts; open the links in a browser and confirm before relying on this record."
+  "obligations": [
+    {
+      "id": "wi-annual-report",
+      "title": "Annual Report",
+      "applies_when": "Domestic entities of the listed types: agricultural associations, common law trusts, LLPs, LPs, business corporations, nonstock corporations, LLCs, and cooperative associations.",
+      "form": "Annual Report",
+      "due_rule": "During the calendar quarter of the registration anniversary, each year after the registration calendar year.",
+      "frequency": "annual",
+      "source_url": "https://dfi.wi.gov/Pages/BusinessServices/BusinessEntities/FAQ.aspx",
+      "quote": "A domestic entity shall deliver its Annual Report to the Department in each year following the calendar year in which the entity registered, during the calendar year quarter in which the anniversary date of the registration occurs.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.wdfi.org/corporations/. Automated check could not reach one or more official hosts; open the links in a browser and confirm before relying on this record. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person. The former wdfi.org host no longer resolves; sources now point at dfi.wi.gov."
 }

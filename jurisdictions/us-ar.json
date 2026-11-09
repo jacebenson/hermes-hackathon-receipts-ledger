@@ -3,7 +3,7 @@
   "id": "us-ar",
   "name": "Arkansas",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "ar-annual-filing",
+      "title": "Annual LLC franchise tax report",
+      "applies_when": "Domestic and foreign LLCs registered in Arkansas",
+      "form": "ANNUAL LLC FRANCHISE TAX REPORT 2026",
+      "due_rule": "On or before May 1, 2026",
+      "frequency": "annual",
+      "source_url": "https://www.sos.arkansas.gov/uploads/bcs/LLC1_FT_2026.pdf",
+      "quote": "Reports and taxes are due on or before May 1, 2026.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Arkansas publishes the deadline on the official 2026 form PDF."
 }

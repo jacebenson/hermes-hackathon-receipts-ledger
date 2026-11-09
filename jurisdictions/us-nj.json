@@ -3,7 +3,7 @@
   "id": "us-nj",
   "name": "New Jersey",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "nj-annual-report",
+      "title": "Annual report",
+      "applies_when": "New Jersey formed or registered LLCs and corporations",
+      "form": "Annual Report",
+      "due_rule": "Last day of the formation anniversary month each year",
+      "frequency": "annual",
+      "source_url": "https://business.nj.gov/pages/filings-and-accounting",
+      "quote": "The report is due every year on the last day of the month, in the month in which you completed your business formation (LLC, Corporation, etc).",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

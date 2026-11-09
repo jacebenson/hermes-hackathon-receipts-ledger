@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 DEFAULT_DIRECTORY = Path(__file__).resolve().parents[1] / "jurisdictions"
 STATE_CODES = "al ak az ar ca co ct de dc fl ga hi id il in ia ks ky la me md ma mi mn ms mo mt ne nv nh nj nm ny nc nd oh ok or pa ri sc sd tn tx ut vt va wa wv wi wy".split()
 EXPECTED_IDS = {"us-federal", *(f"us-{code}" for code in STATE_CODES)}
-CONFIDENCES = {"verified", "seeded", "unknown"}
+CONFIDENCES = {"verified", "extracted", "seeded", "unknown"}
 
 
 def valid_date(value: object) -> bool:
@@ -87,13 +87,24 @@ def validate_record(record: object, filename: str) -> list[str]:
         if confidence == "verified" and source.get("status") != "ok":
             error(f"verified record requires {label}.status ok")
         if confidence == "seeded" and source.get("status") in ("unconfirmed", "unchecked"):
-            error(f"seeded record requires every source to have answered (ok or blocked)")
+            error("seeded record requires every source to have answered (ok or blocked)")
     obligations = record.get("obligations")
     if not isinstance(obligations, list):
         error("obligations must be an array")
         obligations = []
     if confidence == "verified" and not obligations:
         error("verified record requires at least one obligation")
+    if confidence == "extracted" and not obligations:
+        error("extracted record requires at least one obligation")
+    if confidence == "extracted":
+        # The page a quote came from must have answered; provenance links that a
+        # host refuses are allowed to stay unconfirmed, because they are not the
+        # evidence for the quote.
+        statuses = {source.get("url"): source.get("status") for source in sources.values() if isinstance(source, dict)}
+        for index, obligation in enumerate(obligations if isinstance(obligations, list) else []):
+            url = obligation.get("source_url") if isinstance(obligation, dict) else None
+            if url in statuses and statuses[url] in ("unconfirmed", "unchecked"):
+                error(f"obligations[{index}].source_url is listed as {statuses[url]}; the quoted page must have answered")
     if confidence == "unknown" and obligations:
         error("unknown record cannot have obligations")
     if confidence == "seeded" and obligations:

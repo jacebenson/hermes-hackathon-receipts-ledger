@@ -3,7 +3,7 @@
   "id": "us-nc",
   "name": "North Carolina",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "nc-annual-report",
+      "title": "Annual LLC report",
+      "applies_when": "North Carolina LLCs and L3Cs",
+      "form": "Annual Report",
+      "due_rule": "April 15 each year after year of creation",
+      "frequency": "annual",
+      "source_url": "https://www.sosnc.gov/divisions/business_registration/annual_report_due_dates",
+      "quote": "Your report is due on April 15th of each year after the year of creation.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

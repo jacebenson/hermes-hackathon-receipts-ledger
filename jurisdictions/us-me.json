@@ -3,7 +3,7 @@
   "id": "us-me",
   "name": "Maine",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. The Employer Withholding link without trailing whitespace is independently present on the revenue page and answered HTTP 200."
+  "obligations": [
+    {
+      "id": "me-annual-report",
+      "title": "Annual report",
+      "applies_when": "Business and nonprofit corporations, limited partnerships, LLCs and LLPs required to maintain good standing in Maine",
+      "form": "Annual Report",
+      "due_rule": "June 1 each year",
+      "frequency": "annual",
+      "source_url": "https://www.maine.gov/sos/corporations-commissions/filing-an-annual-report",
+      "quote": "The legal filing deadline is June 1st.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. The Employer Withholding link without trailing whitespace is independently present on the revenue page and answered HTTP 200. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

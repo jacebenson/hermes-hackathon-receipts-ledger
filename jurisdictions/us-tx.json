@@ -3,7 +3,7 @@
   "id": "us-tx",
   "name": "Texas",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim."
+  "obligations": [
+    {
+      "id": "tx-public-information-report",
+      "title": "Texas Franchise Tax Public Information Report",
+      "applies_when": "Each taxable entity formed as a corporation, limited liability company (LLC), limited partnership, professional association and financial institution that is organized in Texas or has nexus in Texas, subject to the listed exemptions.",
+      "form": "Form 05-102, Texas Franchise Tax Public Information Report (PIR)",
+      "due_rule": "On the annual franchise tax report due date.",
+      "frequency": "annual",
+      "source_url": "https://comptroller.texas.gov/taxes/franchise/pir-oir-filing-req.php",
+      "quote": "The PIR is due on the annual franchise tax report due date.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

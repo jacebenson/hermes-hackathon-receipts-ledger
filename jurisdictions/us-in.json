@@ -38,5 +38,5 @@
     }
   },
   "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://in.gov/sos/business/index.htm."
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://in.gov/sos/business/index.htm. Indiana's INBiz pages render as JavaScript shells and the legacy guide is gone, so no first-party deadline sentence could be read automatically. Open the registry link and confirm."
 }

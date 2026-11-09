@@ -3,7 +3,7 @@
   "id": "us-co",
   "name": "Colorado",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "blocked"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://cdor.colorado.gov/. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified. The withholding topic was selected by following links from the official revenue website. No obligation was verified. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success."
+  "obligations": [
+    {
+      "id": "co-annual-filing",
+      "title": "Annual periodic report",
+      "applies_when": "Reporting entities including LLCs, corporations, nonprofit corporations and foreign entities",
+      "form": "Periodic Report",
+      "due_rule": "Entity-specific Periodic Report month; filing permitted two months before through two months after without penalty",
+      "frequency": "annual",
+      "source_url": "https://www.sos.state.co.us/pubs/business/FAQs/reports.html",
+      "quote": "The Periodic Report can be filed two months prior to the Periodic Report month or two months after without any penalty.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://cdor.colorado.gov/. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified. The withholding topic was selected by following links from the official revenue website. No obligation was verified. Source statuses reflect the final direct-check run. Reachability varied between consecutive runs; no rule was inferred from request success. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

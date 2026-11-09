@@ -38,5 +38,5 @@
     }
   },
   "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified."
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. The sales_tax topic was selected by following links from the official revenue website. No obligation was verified. Nevada's registry serves a bot-block page that returns HTTP 200 with no filing content."
 }

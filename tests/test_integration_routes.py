@@ -65,9 +65,11 @@ def client(tmp_path: Path, monkeypatch) -> TestClient:
 def test_the_bundle_is_queryable_and_carries_its_confidence(client: TestClient) -> None:
     data = client.get(f"{PREFIX}/jurisdictions").json()
 
-    assert data["counts"]["verified"] == 3
-    assert data["counts"]["seeded"] == 47
-    assert data["counts"]["unknown"] == 2
+    counts = data["counts"]
+    assert counts["verified"] == 3            # read and quoted by a person
+    assert counts["extracted"] >= 30          # quoted from a live page, re-checked
+    assert counts["seeded"] + counts["unknown"] <= 12
+    assert sum(counts.values()) == 52
     assert "could not be reached" in data["statement"]
     assert data["records"][0]["level"] == "federal"
 

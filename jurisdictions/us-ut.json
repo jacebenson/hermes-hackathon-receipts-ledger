@@ -3,7 +3,7 @@
   "id": "us-ut",
   "name": "Utah",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "ut-annual-renewal",
+      "title": "Annual Report/Renewal",
+      "applies_when": "All registered business entities.",
+      "form": "Annual Report/Renewal",
+      "due_rule": "Annually to maintain active status; this page does not state a calendar or anniversary deadline.",
+      "frequency": "annual",
+      "source_url": "https://commerce.utah.gov/corporations/renewal-process/",
+      "quote": "All registered business entities are required to file an annual report (also known as a renewal) to maintain an active status.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

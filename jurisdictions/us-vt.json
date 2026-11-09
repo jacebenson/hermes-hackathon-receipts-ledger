@@ -3,7 +3,7 @@
   "id": "us-vt",
   "name": "Vermont",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "vt-annual-report",
+      "title": "Annual Reports",
+      "applies_when": "Profit corporations, profit cooperative corporations, and limited liability companies (LLC/PLC/L3C).",
+      "form": "Annual Report",
+      "due_rule": "Within the first two and a half months after fiscal year end for profit corporations, or three months for LLC/PLC/L3C.",
+      "frequency": "annual",
+      "source_url": "https://sos.vermont.gov/business-services/business-filings/annualbiennial-reports",
+      "quote": "As a profit corporation, profit cooperative corporation, or a limited liability company (LLC/PLC/L3C), you must renew your business registration each fiscal year by filing an annual report within the first two and a half months (Profit Corps.) or three months (LLC/PLC/L3C) following the fiscal year end on record.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

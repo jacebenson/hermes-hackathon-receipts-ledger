@@ -3,7 +3,7 @@
   "id": "us-pa",
   "name": "Pennsylvania",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "pa-annual-report",
+      "title": "Annual corporate report",
+      "applies_when": "Domestic and foreign business and nonprofit corporations",
+      "form": "Annual Report [DSCB:15-146]",
+      "due_rule": "June 30 each year, first report in year following formation or foreign registration",
+      "frequency": "annual",
+      "source_url": "https://www.pa.gov/agencies/dos/programs/business/types-of-filings-and-registrations/annual-reports",
+      "quote": "For all corporations (business and nonprofit, domestic and foreign), the deadline is June 30 of each year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

@@ -3,7 +3,7 @@
   "id": "us-hi",
   "name": "Hawaii",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified."
+  "obligations": [
+    {
+      "id": "hi-annual-filing",
+      "title": "Annual business report",
+      "applies_when": "Hawaii registered entities subject to annual business reports",
+      "form": "Hawaii annual reports",
+      "due_rule": "During the quarter in which the annual filing is due, determined by entity registration date",
+      "frequency": "annual",
+      "source_url": "https://cca.hawaii.gov/breg/release-second-quarter-hawaii-annual-business-reports-due-3/",
+      "quote": "Hawaii annual reports can be filed at any time during the quarter in which the annual filing is due.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. A dedicated withholding page could not be confirmed; the source is the revenue directory entry point, not a rate/taxability claim. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

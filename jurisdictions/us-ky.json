@@ -3,7 +3,7 @@
   "id": "us-ky",
   "name": "Kentucky",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "ky-annual-report",
+      "title": "Annual report",
+      "applies_when": "Entities conducting business in Kentucky",
+      "form": "annual report",
+      "due_rule": "June 30 each year",
+      "frequency": "annual",
+      "source_url": "https://www.sos.ky.gov/bus/business-filings/Pages/Annual-Reports.aspx",
+      "quote": "To assist the Secretary of State in providing accurate information to the public, all entities conducting business in the Commonwealth of Kentucky are required to file annual reports with this office by June 30 of each year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

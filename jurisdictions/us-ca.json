@@ -3,7 +3,7 @@
   "id": "us-ca",
   "name": "California",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. The withholding topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified."
+  "obligations": [
+    {
+      "id": "ca-biennial-report",
+      "title": "Biennial statement of information",
+      "applies_when": "California nonprofit corporations and California or qualified out-of-state LLCs",
+      "form": "Statement of Information",
+      "due_rule": "Every two years in the registration month, in even or odd years matching registration year",
+      "frequency": "biennial",
+      "source_url": "https://www.sos.ca.gov/business-programs/business-entities/faqs",
+      "quote": "California Nonprofit Corporations and all Limited Liability Companies are required to file every two years in the month of registration in even or odd years based on the year of registration.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. The withholding topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

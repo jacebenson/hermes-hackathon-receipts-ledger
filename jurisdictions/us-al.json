@@ -3,7 +3,7 @@
   "id": "us-al",
   "name": "Alabama",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "al-annual-filing",
+      "title": "Business privilege tax return",
+      "applies_when": "Nonexempt corporations, limited liability entities and disregarded entities doing business in or registered in Alabama, other than Financial Institution Groups",
+      "form": "Business Privilege tax return",
+      "due_rule": "Due date of the corresponding federal return",
+      "frequency": "annual",
+      "source_url": "https://www.revenue.alabama.gov/faqs/when-is-the-alabama-business-privilege-tax-return-due/",
+      "quote": "With the exception of the Business Privilege return for Financial Institutions Groups, the Business Privilege tax return due date corresponds to the due date of the corresponding federal return.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }

@@ -390,7 +390,11 @@ function JurisdictionPanel({ ctx, status }) {
   }
 
   const record = bundle && bundle.record
-  const confidenceVariant = record && record.confidence === 'verified' ? 'success' : record && record.confidence === 'seeded' ? 'muted' : 'warn'
+  const confidenceVariant = !record
+    ? 'muted'
+    : record.confidence === 'verified' ? 'success'
+      : record.confidence === 'extracted' ? 'default'
+        : record.confidence === 'seeded' ? 'muted' : 'warn'
 
   return jsx('div', { style: { marginTop: 22 }, children: [
     jsx('div', { style: { display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }, children: [
@@ -423,6 +427,9 @@ function JurisdictionPanel({ ctx, status }) {
           : jsx('div', { style: { ...text.dim, marginTop: 6 }, children: record.confidence === 'unknown'
             ? 'Sources could not be reached from here, so this record makes no claims. Open them in a browser.'
             : 'No rule has been read for this jurisdiction yet. The official pages are listed below; your agent can fill this in.' }),
+        record.confidence === 'extracted'
+          ? jsx('div', { style: { ...text.faint, marginTop: 6 }, children: 'Quotes were copied from the live page and re-verified, but no person has read the rule yet.' })
+          : null,
         jsx('div', { style: { ...text.faint, marginTop: 8 }, children: Object.entries(record.sources || {}).map(([key, source]) =>
           jsx('div', { key, style: { display: 'flex', gap: 6, padding: '2px 0' }, children: [
             jsx('span', { style: { width: 74, flexShrink: 0 }, children: key }),

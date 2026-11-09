@@ -3,7 +3,7 @@
   "id": "us-ak",
   "name": "Alaska",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.commerce.alaska.gov/web/cbpl/. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. The withholding topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified."
+  "obligations": [
+    {
+      "id": "ak-biennial-report",
+      "title": "Biennial report",
+      "applies_when": "For-profit corporations, professional corporations, LLCs and LLPs created in an even-numbered year",
+      "form": "Biennial Report",
+      "due_rule": "January 2 of every even-numbered year",
+      "frequency": "biennial",
+      "source_url": "https://www.commerce.alaska.gov/web/cbpl/Corporations/BiennialReportsFAQs",
+      "quote": "If the entity is created in an even-numbered year, the Biennial Report due date will be January 2nd of every even-numbered year.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.commerce.alaska.gov/web/cbpl/. The sales_tax topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. The withholding topic URL was followed from the official revenue website or its linked government tax service center. No additional obligation was verified. Quote re-checked against the page as read by the extraction service; the host refuses direct requests."
 }

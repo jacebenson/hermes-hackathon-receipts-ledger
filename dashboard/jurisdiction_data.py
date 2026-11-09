@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 BUNDLE_DIR = Path(__file__).resolve().parent.parent / "jurisdictions"
-CONFIDENCES = ("verified", "seeded", "unknown")
+CONFIDENCES = ("verified", "extracted", "seeded", "unknown")
 MONTHS = {
     "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6,
     "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12,
@@ -108,8 +108,9 @@ def summary(directory: Path | None = None) -> dict[str, Any]:
         **data,
         "unknown_names": unknown,
         "statement": (
-            f"{data['counts']['verified']} jurisdictions carry rules read from a government page, "
-            f"{data['counts']['seeded']} have official sources but no verified rule, and "
+            f"{data['counts']['verified']} jurisdictions carry rules a person read and quoted, "
+            f"{data['counts']['extracted']} carry quotes copied from the live page but not yet reviewed, "
+            f"{data['counts']['seeded']} have sources only, and "
             f"{data['counts']['unknown']} could not be reached at all."
         ),
     }

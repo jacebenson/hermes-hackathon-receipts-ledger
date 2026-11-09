@@ -3,7 +3,7 @@
   "id": "us-il",
   "name": "Illinois",
   "level": "state",
-  "confidence": "unknown",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.ilsos.gov/. Automated check could not reach one or more official hosts; open the links in a browser and confirm before relying on this record."
+  "obligations": [
+    {
+      "id": "il-annual-filing",
+      "title": "LLC annual report",
+      "applies_when": "Illinois LLCs and foreign LLCs admitted to transact business in Illinois",
+      "form": "annual report",
+      "due_rule": "Within the 60 days immediately preceding the first day of the anniversary month",
+      "frequency": "annual",
+      "source_url": "https://www.ilga.gov/legislation/ilcs/documents/080501800K50-1.htm",
+      "quote": "The annual report, together with all fees and charges prescribed by this Act, shall be delivered to the Secretary of State within 60 days immediately preceding the first day of the anniversary month.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Unconfirmed source URLs: https://www.ilsos.gov/. Automated check could not reach one or more official hosts; open the links in a browser and confirm before relying on this record. Illinois requires delivery before the first day of the anniversary month."
 }

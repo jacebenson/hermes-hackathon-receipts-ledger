@@ -3,7 +3,7 @@
   "id": "us-wv",
   "name": "West Virginia",
   "level": "state",
-  "confidence": "seeded",
+  "confidence": "extracted",
   "updated_on": "2026-11-09",
   "sources": {
     "revenue": {
@@ -37,6 +37,18 @@
       "status": "ok"
     }
   },
-  "obligations": [],
-  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies."
+  "obligations": [
+    {
+      "id": "wv-annual-report",
+      "title": "Annual Reports",
+      "applies_when": "Organizations registered through the West Virginia Secretary of State, subject to company-type filing requirements.",
+      "form": "Annual Report",
+      "due_rule": "Between January 1 and June 30 each year after the registration calendar year.",
+      "frequency": "annual",
+      "source_url": "https://sos.wv.gov/business/updates-and-changes/annual-reports",
+      "quote": "WV Code \u00a759-1-2a requires organizations registered through the West Virginia Secretary of State to file an annual report, and pay the annual report $25.00 filing fee between January 1 and June 30 of each year following the calendar year in which the business was registered with the Office of the Secretary of State.",
+      "verified_on": "2026-11-09"
+    }
+  ],
+  "notes": "Seed URLs selected from the IRS state government directory. HTTP directory links are explicitly tested over HTTPS. No state tax rules have been verified. Sales tax and withholding sources may be general official research entry points, not determinations that a tax applies. Quote copied from the live page by a script and re-verified before promotion; not yet read by a person."
 }
