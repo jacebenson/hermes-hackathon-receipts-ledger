@@ -1,0 +1,12 @@
+{
+  "name": "receipt-ledger",
+  "label": "Receipt Ledger",
+  "description": "Which charges have paper and which do not, read from a self-hosted Securo instance or a charges CSV.",
+  "icon": "files",
+  "version": "0.3.3",
+  "api": "plugin_api.py",
+  "tab": {
+    "path": "/receipt-ledger",
+    "position": "end"
+  }
+}

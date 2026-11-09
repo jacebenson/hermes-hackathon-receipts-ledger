@@ -21,10 +21,19 @@ from __future__ import annotations
 
 import csv
 import shutil
+import sys
 import zipfile
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote
+
+# Hermes imports this file by path (importlib spec_from_file_location), which does
+# not put its own directory on sys.path, so the sibling modules below would fail
+# with "No module named 'audit'". Make the plugin self-locating instead of relying
+# on how the host loads it.
+_HERE = str(Path(__file__).resolve().parent)
+if _HERE not in sys.path:
+    sys.path.insert(0, _HERE)
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
