@@ -13,12 +13,15 @@ PLUGIN_DIR="$HERMES_HOME/plugins/receipt-ledger"
 
 mkdir -p "$DESKTOP_DIR" "$PLUGIN_DIR"
 cp "$HERE/desktop/plugin.js" "$DESKTOP_DIR/plugin.js"
+# Replace the backend wholesale so a renamed or deleted module never lingers.
+rm -rf "$PLUGIN_DIR/dashboard"
 cp -r "$HERE/dashboard" "$PLUGIN_DIR/dashboard"
 cp "$HERE/plugin.yaml" "$PLUGIN_DIR/plugin.yaml"
 rm -rf "$PLUGIN_DIR/dashboard/__pycache__"
 
 echo "desktop half -> $DESKTOP_DIR/plugin.js"
 echo "backend half -> $PLUGIN_DIR"
+echo "settings stay in $PLUGIN_DIR/data/ (never copied or overwritten by this script)"
 
 if [[ "$ENABLE" -eq 1 ]]; then
   CONFIG="$HERMES_HOME/config.yaml"
