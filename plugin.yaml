@@ -10,6 +10,11 @@ description: Receipt ledger for the desktop app. Reads charges and attachments f
   missing, names the portal to get what is missing, and writes one zip for the
   accountant.
 requires_hermes: ">=0.21.0"
+provides_tools:
+  - receipt_ledger_spend
+  - receipt_ledger_missing_paper
+  - receipt_ledger_coverage
+  - receipt_ledger_status
 config_schema:
   securo_url:
     type: str
@@ -41,6 +46,15 @@ config_schema:
     type: str
     label: Charges to
     description: Last day to read, YYYY-MM-DD. Blank means today.
+  business_state:
+    type: str
+    label: Your state
+    description: Two-letter code of the state the business files in. Chooses which jurisdiction record the pane opens first.
+  business_entity:
+    type: str
+    label: Entity type
+    description: How the business is taxed - single-member LLC, S corporation, partnership or sole proprietor. Selects which obligations apply.
+    choices: [single_member_llc, s_corp, partnership, sole_proprietor]
   receipts_dir:
     type: str
     label: Receipt folder

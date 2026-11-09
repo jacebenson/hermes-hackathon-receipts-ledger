@@ -57,12 +57,20 @@ const ledger = {
     by_category: [{ key: 'Hosting', count: 1, dollars: 63.44 }],
     by_month: [], by_account: []
   },
-  advice: [{ kind: 'capture-at-source', title: 'Attach paper as the charge lands', evidence: '2 of 6 charges have no attachment in Securo ($549.00).', fix: 'Forward receipts to Securo.' }]
+  advice: [{ kind: 'capture-at-source', title: 'Attach paper as the charge lands', evidence: '2 of 6 charges have no attachment in Securo ($549.00).', fix: 'Forward receipts to Securo.' }],
+  classification_summary: {
+    business_dollars: 63.44, personal_dollars: 0, mixed_business_dollars: 0, mixed_personal_dollars: 0,
+    reimbursable_to_owner_dollars: 0, unreviewed_dollars: 50, reconciles: true, counts: { charges: 2, business: 1, unreviewed: 1 }
+  },
+  review_queue: [{
+    id: 'securo:t2', date: '2026-08-19', vendor: 'Fireworks AI', amount: 50, account: 'Business Checking', card: 'Business Visa',
+    review: { needed: true, proposal: { decision: 'business', confidence: 'high', reasons: ['Business payment method and vendor precedent.'] } }
+  }]
 }
 
 const status = {
   configured: true, mode: 'securo', credentials: true,
-  settings: { securo_url: 'http://securo.home', securo_email: 'owner@example.com', securo_password_set: true },
+  settings: { securo_url: 'http://securo.home', securo_email: 'owner@example.com', securo_password_set: true, business_state: 'MN', business_entity: 'single_member_llc' },
   period: { from: '2026-01-01', to: '2026-11-09' }, source: ledger.source, counts: ledger.counts, has_advice: true
 }
 
@@ -128,6 +136,10 @@ expect(rendered.includes('Hetzner Online GmbH'), 'page renders a charge row')
 expect(rendered.includes('Fireworks AI'), 'page renders the missing charge')
 expect(rendered.includes('fireworks.ai'), 'missing row names the portal')
 expect(rendered.includes('Attach paper as the charge lands'), 'page renders advice')
+expect(rendered.includes('Business or personal'), 'page renders the classification panel')
+expect(rendered.includes('Fireworks AI'), 'review queue names the charge')
+expect(rendered.includes('Where your business answers to'), 'page renders the jurisdiction panel')
+expect(rendered.includes('What this plugin did'), 'page renders the audit panel')
 expect(rendered.includes('http://securo.home'), 'page names the connected instance')
 expect(!rendered.includes('owner@example.com'), 'page never renders the stored email as a secret')
 

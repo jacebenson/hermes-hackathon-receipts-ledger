@@ -1,14 +1,16 @@
 # receipt-ledger
 
-A Hermes desktop plugin that answers one question for every charge: **is the paper there?**
+A Hermes plugin that gets your business's paper, entity and filing facts into one
+auditable place, so you — and your assistant — can answer them without opening
+twelve portals.
 
 Charges come from your own [Securo](https://github.com/securo-finance/securo)
-instance. Paper comes from Securo's attachments. A folder of old PDFs still
-counts if that is all you have.
-
-It ends the January ritual of opening twelve billing portals to find out which
-receipts you never saved — and it names the structural fix that stops the ritual
-from coming back.
+instance. Paper comes from Securo's attachments; a folder of old PDFs still
+counts if that is all you have. Every charge can carry a business-or-personal
+decision you made, with the reason. Every jurisdiction fact ships with the
+government page it came from and the day it was checked. And the assistant can
+ask the plugin questions directly, so "what's missing paper over fifty bucks"
+is a sentence, not a spreadsheet.
 
 ## Why it exists
 
@@ -30,8 +32,65 @@ this one".
 - Rolls spend up by vendor, category, month and account
 - Gives structural advice with the evidence attached: vendors that never send a
   receipt, vendors split across accounts, business costs on personal cards
-- Writes one zip for the accountant: receipts, index, gap list, totals
+- Writes one zip for the accountant: receipts, index, gap list, totals, and the
+  classification trail
+- Records business-or-personal per charge as a standing rule with who decided,
+  when, and why — proposed with evidence, never assumed
+- Ships a jurisdiction bundle: federal plus all fifty states and DC, each with
+  source links and a confidence tier, and quoted obligations where someone read
+  the rule
+- Attaches a downloaded receipt to the right Securo charge in two confirmed steps
+- Exposes four read-only agent tools so Hermes answers from your ledger
+- Journals every read and write so "it only reads" is something you can check
 - Works without Securo: a transactions CSV plus a folder of receipts
+
+## Ask it instead of opening it
+
+The plugin registers four read-only tools. In a Hermes chat:
+
+- *what did I spend on hosting this year* → `receipt_ledger_spend`
+- *which receipts are missing over fifty bucks* → `receipt_ledger_missing_paper`
+- *what's my receipt coverage for Q3* → `receipt_ledger_coverage`
+- *is the ledger connected* → `receipt_ledger_status`
+
+They read the last saved scan and never contact Securo, so an answer costs
+nothing and cannot trigger a sync.
+
+## Business or personal, on the record
+
+A charge is `business`, `personal`, `mixed` with a business percentage and the
+basis for it, `owner_reimbursement` when the LLC owes you, or
+`owner_contribution` for money you put in. The engine proposes with reasons —
+business card plus the same vendor all year suggests business — and you confirm.
+A confirmed decision becomes a rule keyed to vendor, account, card or category,
+so the next ninety charges do not ask again.
+
+With no rules, everything is unreviewed and business spending is **zero**. That
+is deliberate: a default is a claim you did not make.
+
+## Where your business answers to
+
+`jurisdictions/` holds one JSON record per jurisdiction: the revenue department,
+the business registry, the sales-tax source and the withholding source, each
+with a checked date and a status. Three tiers:
+
+- **verified** — someone opened the government page and copied the sentence
+- **seeded** — official sources answered, but no rule was read
+- **unknown** — the hosts could not be reached at all
+
+Minnesota's annual renewal and Delaware's annual entity tax are quoted as worked
+examples, and the federal record carries ten quoted obligations. Every other
+state is a seeded starting point: your own agent can fill in its rules, and the
+record will say who filled it in and when.
+
+## What it read, what it wrote
+
+`data/audit.jsonl` keeps the newest 500 entries: every scan, package build,
+attachment upload and settings change, with counts and outcomes. The pane shows
+them, and the same page states the limits — not tax advice, an attachment is
+paper rather than proof, the portal list is a table, classification is proposed
+rather than assumed, jurisdiction facts are dated, and reads and writes are
+visible.
 
 ## Install
 
@@ -125,13 +184,23 @@ only through the app.
 | `POST /scan` | rescan now |
 | `GET/POST /settings` | read/save config; secrets are never echoed back |
 | `POST /securo/test` | prove a URL + credential without saving it |
+| `POST /securo/attach/preview` | what an upload would do: target, file, existing attachments |
+| `POST /securo/attach` | the one write: attach a receipt, only with `confirm: true` |
+| `GET /classification` | per-entity summary, review queue, standing rules |
+| `POST /classification/rule` | record your decision as a standing rule |
+| `GET /jurisdictions` | the bundle: counts, catalog, and one record by id |
+| `GET /audit` | what ran, what it wrote, and the plugin's stated limits |
+| `POST /audit/clear` | drop the journal |
 | `POST /package` | download receipts, write the zip |
 
 ## Test
 
 ```sh
-python3 -m pytest tests -q      # 34 tests: engine, client over real HTTP, routes
+python3 -m pytest tests -q      # 182 tests: engine, client over real HTTP, routes,
+                               # classification, audit, jurisdictions, upload
 node scripts/smoke-plugin.mjs   # desktop half: registers, renders both states
+python3 scripts/validate_jurisdictions.py      # the data contract
+python3 scripts/verify_jurisdiction_sources.py # every URL, with statuses
 ```
 
 The client tests run the real `SecuroClient` against a stub HTTP server that
@@ -165,6 +234,34 @@ and fresh-install.
   is an invoice, a screenshot or a photo of a napkin.
 - Tested against Securo 0.1.x. An upstream endpoint change surfaces as a named
   error (`… does not exist on this Securo instance`), not a silent empty ledger.
+- Jurisdiction records are dated claims, not a subscription. Two states could not
+  be reached from the machine that built the bundle, so they ship as unknown and
+  say so; 47 carry sources but no read rule. Re-run the source checker before
+  relying on a page that matters.
+- A classification rule matches text, so `vendor_contains: "AI"` will match more
+  than you meant. Prefer the vendor's distinctive word, and check the first scan
+  after saving a rule.
+- Attachment upload adds a file; it never replaces or deletes one, and it does
+  not retry after a failure that might have succeeded. Check the transaction in
+  Securo before trying again.
+
+## Layout
+
+```
+desktop/plugin.js               desktop half: pane, sidebar row, palette command
+__init__.py                     agent tools: register(ctx), four read-only tools
+dashboard/ledger_core.py        matching engine, ledger build, totals, advice
+dashboard/securo_client.py      read-only Securo HTTP client (stdlib)
+dashboard/securo_write.py       the single confirmed write path
+dashboard/classify.py           decision store, proposals, review queue, totals
+dashboard/audit.py              bounded journal of reads and writes + limits
+dashboard/jurisdiction_data.py  the bundle as data, next-due parsing only
+dashboard/agent_tools.py        the queries behind the tools
+dashboard/plugin_api.py         the routes, all under the plugin namespace
+jurisdictions/                  52 records: federal, 50 states, DC
+scripts/                        validator, source checker, desktop smoke test
+tests/                          182 tests, no network except the local stub
+```
 
 ## Roadmap
 

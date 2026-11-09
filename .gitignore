@@ -5,3 +5,4 @@ data/
 packages/
 .DS_Store
 .pytest_cache/
+.venv

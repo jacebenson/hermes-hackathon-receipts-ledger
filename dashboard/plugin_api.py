@@ -29,6 +29,9 @@ from urllib.parse import quote
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
+import audit
+import classify as classification
+import jurisdiction_data
 import ledger_core as core
 import securo_client
 import securo_write
@@ -81,8 +84,68 @@ async def ledger() -> dict:
     return data
 
 
+@router.get("/audit")
+async def audit_log() -> dict:
+    return audit.summary()
+
+
+@router.post("/audit/clear")
+async def audit_clear() -> dict:
+    return {"ok": audit.clear()}
+
+
+@router.get("/jurisdictions")
+async def jurisdiction_bundle(state_id: str = "") -> dict:
+    """The whole catalogue, plus one record when an id is asked for."""
+    data = jurisdiction_data.summary()
+    chosen = jurisdiction_data.record(state_id) if state_id else None
+    return {**data, "record": chosen}
+
+
+@router.post("/classification/rule")
+async def classification_rule(request: Request) -> dict:
+    """A human decision, stored as a standing rule. The only way a charge is
+    ever classified without review."""
+    try:
+        body = await request.json()
+    except Exception:  # noqa: BLE001 — malformed body is a user error, not a crash
+        body = {}
+    if not isinstance(body, dict):
+        body = {}
+    match = body.get("match")
+    decision = body.get("decision")
+    if not isinstance(match, dict) or not match:
+        return {"ok": False, "error": "A rule needs at least one match field (vendor, account, card or category)."}
+    rule = {
+        "decision": decision,
+        "match": match,
+        "business_pct": body.get("business_pct"),
+        "basis": (body.get("basis") or "").strip(),
+        "note": (body.get("note") or "").strip(),
+        "created_by": (body.get("created_by") or "owner").strip() or "owner",
+    }
+    if body.get("id"):
+        rule["id"] = str(body["id"])
+    try:
+        saved = classification.save_rule(rule, path=core.DATA_DIR / "classification.json")
+    except ValueError as error:
+        return {"ok": False, "error": str(error)}
+    audit.record("settings", detail="classification rule saved", target=str(saved.get("decision", "")))
+    # Re-apply to the cached charges. Deliberately no network call: a rule must
+    # never force a live Securo fetch.
+    cached = core.load_ledger()
+    if cached:
+        rules = classification.load_rules(core.DATA_DIR / "classification.json")
+        rows = classification.classify(cached.get("transactions", []), rules)
+        cached["transactions"] = rows
+        cached["classification_summary"] = classification.summary(rows)
+        cached["review_queue"] = [row for row in rows if row.get("kind", "charge") == "charge" and row["review"]["needed"]]
+        core.save_ledger(cached)
+    return {"ok": True, "rule": saved}
+
+
 @router.get("/classification")
-async def classification() -> dict:
+async def classification_view() -> dict:
     engine = core.classification_engine
     rules = engine.load_rules(core.DATA_DIR / "classification.json")
     rows = engine.classify((core.load_ledger() or {}).get("transactions", []), rules)
@@ -95,9 +158,18 @@ async def classification() -> dict:
 async def scan():
     cached = core.load_ledger()
     try:
-        return core.scan()
+        result = core.scan()
     except SecuroError as error:
+        audit.record("scan", ok=False, detail=str(error))
         return _failure(error, cached)
+    counts = result.get("counts") or {}
+    audit.record(
+        "scan",
+        counts={"charges": counts.get("charges"), "with_paper": counts.get("with_paper"), "missing": counts.get("missing")},
+        detail=f"{(result.get('source') or {}).get('kind', 'files')} scan",
+        target=(result.get("source") or {}).get("securo_url", ""),
+    )
+    return result
 
 
 @router.get("/settings")
@@ -203,6 +275,7 @@ async def securo_attach_preview(request: Request) -> dict:
 @router.post("/securo/attach")
 async def securo_attach(request: Request) -> dict:
     """One explicitly confirmed write, with the same checks repeated at upload."""
+    body = None
     try:
         try:
             body = await request.json()
@@ -214,8 +287,15 @@ async def securo_attach(request: Request) -> dict:
             raise SecuroError("Attachment upload requires confirm: true.", hint="Preview the target and receipt, then explicitly confirm the upload.")
         client, row, file, _, _ = _attachment_target(body)
         result = securo_write.SecuroWriter(client).upload_attachment(row["securo_id"], file)
+        audit.record(
+            "attach",
+            detail=f"attached {result['filename']}",
+            counts={"bytes": result["size"]},
+            target=f"{row['date']} {row['vendor']}"[:200],
+        )
         return {"ok": True, "attached": {key: result[key] for key in ("filename", "size")}, "transaction_id": row["securo_id"]}
     except SecuroError as error:
+        audit.record("attach", ok=False, detail=str(error), target=str((body or {}).get("transaction_id", ""))[:200])
         return {"ok": False, **error.as_dict()}
 
 
@@ -369,6 +449,13 @@ async def package(request: Request):
             ]
         )
         + "\n"
+    )
+
+    audit.record(
+        "package",
+        detail=f"wrote {len(copied)} receipts and {len(missing)} still-missing rows",
+        counts={"receipts": len(copied), "still_missing": len(missing), "errors": len(errors)},
+        target=str(staged),
     )
 
     archive = staged.with_suffix(".zip")
