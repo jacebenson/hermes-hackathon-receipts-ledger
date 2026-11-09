@@ -1,7 +1,51 @@
 name: receipt-ledger
-version: "0.2.0"
+version: "0.3.0"
+manifest_version: 2
+api_version: 1
+license: MIT
+homepage: https://github.com/jacebenson/hermes-hackathon-receipts-ledger
+tags: [finance, receipts, tax, securo, accountant]
 description: Receipt ledger for the desktop app. Reads charges and attachments from
   a self-hosted Securo instance (or a CSV export), marks every charge as paper or
   missing, names the portal to get what is missing, and writes one zip for the
   accountant.
 requires_hermes: ">=0.21.0"
+config_schema:
+  securo_url:
+    type: str
+    label: Securo URL
+    description: The address you open Securo at, e.g. http://securo.home or https://finance.example.com
+  securo_email:
+    type: str
+    label: Securo email
+    description: The email you sign in to Securo with.
+  securo_password:
+    type: secret
+    env: RECEIPT_LEDGER_SECURO_PASSWORD
+    label: Securo password
+    description: Stored in .env, never in config.yaml. Used to obtain a bearer token; re-login happens automatically.
+  securo_token:
+    type: secret
+    env: RECEIPT_LEDGER_SECURO_TOKEN
+    label: Securo access token
+    description: Optional sct_ token with transactions:read and accounts:read. Used instead of email and password when your instance can mint one.
+  securo_workspace_id:
+    type: str
+    label: Workspace id
+    description: Only needed when the account belongs to more than one Securo workspace.
+  from_date:
+    type: str
+    label: Charges from
+    description: First day to read, YYYY-MM-DD. Blank means January 1 of this year.
+  to_date:
+    type: str
+    label: Charges to
+    description: Last day to read, YYYY-MM-DD. Blank means today.
+  receipts_dir:
+    type: str
+    label: Receipt folder
+    description: Optional folder of receipt files, used to fill gaps for charges that have no attachment in Securo.
+  transactions_csv:
+    type: str
+    label: Transactions CSV
+    description: Alternative to Securo - a charges export with date, vendor, amount and optional account, card and category columns.

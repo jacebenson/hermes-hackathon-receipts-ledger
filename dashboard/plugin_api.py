@@ -49,7 +49,7 @@ def _failure(error: SecuroError, ledger: dict | None = None) -> JSONResponse:
 
 @router.get("/status")
 async def status() -> dict:
-    settings = core.load_settings()
+    settings = core.effective_settings()
     state = core.configured(settings)
     ledger = core.load_ledger() or {}
     from_date, to_date = core.securo_period(settings)
@@ -101,7 +101,7 @@ async def put_settings(request: Request):
     except Exception:  # noqa: BLE001 — body is optional
         body = {}
     core.save_settings(body or {})
-    settings = core.load_settings()
+    settings = core.effective_settings()
     state = core.configured(settings)
     if not state["configured"]:
         return {"settings": core.public_settings(settings), **state, "ledger": None}
@@ -122,7 +122,7 @@ async def securo_test(request: Request) -> dict:
         body = await request.json()
     except Exception:  # noqa: BLE001
         body = {}
-    saved = core.load_settings()
+    saved = core.effective_settings()
     overrides = {key: value for key, value in (body or {}).items() if value not in ("", None)}
     merged = {**saved, **overrides}
     try:
@@ -147,7 +147,7 @@ async def package(request: Request):
         body = await request.json()
     except Exception:  # noqa: BLE001
         body = {}
-    settings = core.load_settings()
+    settings = core.effective_settings()
     ledger = core.load_ledger()
     if ledger is None:
         try:
