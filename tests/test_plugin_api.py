@@ -173,6 +173,59 @@ def test_package_writes_zip_with_index_and_missing_list(client: TestClient, tmp_
 # -- Securo mode ---------------------------------------------------------
 
 
+def test_package_preserves_identical_charge_receipts_and_isolates_rebuild(client, tmp_path):
+    import ledger_core as core
+
+    first = tmp_path / 'first.pdf'
+    second = tmp_path / 'second.pdf'
+    first.write_bytes(b'first synthetic receipt')
+    second.write_bytes(b'second synthetic receipt')
+    rows = [dict(id=str(i), date='2026-01-01', vendor='Same vendor', amount=10,
+                 status='matched', receipt=str(file)) for i, file in enumerate((first, second))]
+    core.save_ledger({'source': {'kind': 'files'}, 'transactions': rows})
+    result = client.post('/api/plugins/receipt-ledger/package', json={'output_dir': str(tmp_path / 'pack')}).json()
+    with zipfile.ZipFile(result['archive']) as bundle:
+        index = list(csv.DictReader(bundle.read('receipt-index.csv').decode().splitlines()))
+        assert len({r['file'] for r in index}) == 2
+        assert {bundle.read('receipts/' + r['file']) for r in index} == {first.read_bytes(), second.read_bytes()}
+    core.save_ledger({'source': {'kind': 'files'}, 'transactions': []})
+    rebuilt = client.post('/api/plugins/receipt-ledger/package', json={'output_dir': str(tmp_path / 'pack')}).json()
+    assert rebuilt['archive'] != result['archive']
+    with zipfile.ZipFile(rebuilt['archive']) as bundle:
+        assert not any(n.startswith('receipts/') for n in bundle.namelist())
+    assert Path(result['archive']).exists()
+
+
+def test_package_refuses_changed_securo_before_any_download(client, fake_securo, tmp_path):
+    import ledger_core as core
+
+    core.save_ledger({'source': {'kind': 'securo', 'securo_url': 'http://old.invalid'},
+                      'transactions': [{'id': 'securo:t1', 'securo_id': 't1', 'date': '2026-01-01',
+                                        'vendor': 'Synthetic', 'amount': 10, 'status': 'attached'}]})
+    response = client.post('/api/plugins/receipt-ledger/package', json={'output_dir': str(tmp_path / 'pack')})
+    assert response.status_code == 502
+    assert 'changed' in response.json()['error']
+    assert not (tmp_path / 'attachments').exists()
+
+
+def test_attachment_cache_is_scoped_and_ids_cannot_escape(tmp_path):
+    import ledger_core as core
+
+    one = core.cached_attachment('../../escape', '../attachment', 'receipt.pdf', source_url='http://one.invalid')
+    two = core.cached_attachment('../../escape', '../attachment', 'receipt.pdf', source_url='http://two.invalid')
+    assert one != two
+    assert one.resolve().is_relative_to(core.ATTACHMENT_DIR.resolve())
+
+
+def test_saved_securo_can_switch_to_files_without_deleting_credentials(client, fake_securo):
+    client.post('/api/plugins/receipt-ledger/settings', json={'securo_url': 'securo.home', 'securo_token': 'synthetic'})
+    result = client.post('/api/plugins/receipt-ledger/settings', json={
+        'securo_url': '', 'transactions_csv': str(SAMPLES / 'transactions-2026.csv')}).json()
+    assert result['mode'] == 'files'
+    assert result['ledger']['source']['kind'] == 'files'
+    assert result['settings']['securo_token_set'] is True
+
+
 def test_securo_settings_scan_marks_attached_and_missing(client: TestClient, fake_securo: FakeSecuro) -> None:
     payload = client.post(
         "/api/plugins/receipt-ledger/settings",

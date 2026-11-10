@@ -147,8 +147,11 @@ function SetupCard({ ctx, status, onSaved, onCancel }) {
     setError('')
     try {
       const body = mode === 'securo' ? { ...securoBody(), receipts_dir: receiptsDir } : {
+        securo_url: '',
         receipts_dir: receiptsDir,
-        transactions_csv: csvPath
+        transactions_csv: csvPath,
+        from_date: fromDate,
+        to_date: toDate
       }
       const result = await call(ctx, '/settings', { method: 'POST', body })
       onSaved(result)
@@ -179,7 +182,7 @@ function SetupCard({ ctx, status, onSaved, onCancel }) {
       ] }),
       mode === 'securo'
         ? jsx('div', { children: [
-          jsx('div', { style: text.dim, marginBottom: 10, children: 'Reads charges and their attachments from your own Securo instance. The credential stays on this machine.' }),
+          jsx('div', { style: { ...text.dim, marginBottom: 10 }, children: 'Reads charges and their attachments from your own Securo instance. The credential stays on this machine.' }),
           jsx('div', { style: fieldRow, children: [
             jsx(Label, { children: 'Instance URL' }),
             jsx(Input, { value: url, placeholder: 'http://securo.home', onChange: event => setUrl(event.target.value), style: { flex: 1, minWidth: 220 }, 'aria-label': 'Securo URL' })
@@ -343,14 +346,15 @@ function ClassificationPanel({ ctx, ledger, onChanged }) {
               jsx(Button, {
                 size: 'sm',
                 disabled: busy === row.id || !basis,
-                onClick: () => decide(row, 'mixed', { business_pct: Number(pct), basis })
-              }, 'Save split')
+                onClick: () => decide(row, 'mixed', { business_pct: Number(pct), basis }),
+                children: 'Save split'
+              })
             ] })
             : jsx('div', { style: { display: 'flex', gap: 6, marginTop: 6, flexWrap: 'wrap' }, children: [
-              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'business', {}) }, 'Business'),
-              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'personal', {}) }, 'Personal'),
-              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => setMixedFor(row.id) }, 'Mixed'),
-              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'owner_reimbursement', {}) }, 'LLC owes me')
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'business', {}), children: 'Business' }),
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'personal', {}), children: 'Personal' }),
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => setMixedFor(row.id), children: 'Mixed' }),
+              jsx(Button, { size: 'xs', variant: 'outline', disabled: busy === row.id, onClick: () => decide(row, 'owner_reimbursement', {}), children: 'LLC owes me' })
             ] })
         ] }))
       ] })
@@ -403,8 +407,8 @@ function JurisdictionPanel({ ctx, status }) {
     ] }),
     jsx('div', { style: { display: 'flex', gap: 6, marginBottom: 8, alignItems: 'center' }, children: [
       jsx(Input, { value: query, placeholder: 'MN', onChange: event => setQuery(event.target.value), style: { width: 80 }, 'aria-label': 'State code' }),
-      jsx(Button, { size: 'xs', variant: 'outline', onClick: go, disabled: busy !== '' }, busy === 'load' ? 'Loading…' : 'Show'),
-      jsx(Button, { size: 'xs', variant: 'outline', onClick: () => { setQuery('US'); load('us-federal') } }, 'Federal')
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: go, disabled: busy !== '', children: busy === 'load' ? 'Loading…' : 'Show' }),
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: () => { setQuery('US'); load('us-federal') }, children: 'Federal' })
     ] }),
     error ? jsx('div', { style: { color: 'var(--ui-danger, #c0392b)', fontSize: 12 }, children: error }) : null,
     record
@@ -470,7 +474,7 @@ function AuditPanel({ ctx }) {
   if (!data) {
     return jsx('div', { style: { marginTop: 22 }, children: [
       jsx('div', { style: text.sectionTitle, children: 'What this plugin did' }),
-      jsx(Button, { size: 'xs', variant: 'outline', onClick: load, disabled: busy !== '' }, busy === 'load' ? 'Loading…' : 'Show the journal')
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: load, disabled: busy !== '', children: busy === 'load' ? 'Loading…' : 'Show the journal' })
     ] })
   }
 
@@ -478,8 +482,8 @@ function AuditPanel({ ctx }) {
     jsx('div', { style: { display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }, children: [
       jsx('div', { style: text.sectionTitle, children: 'What this plugin did' }),
       jsx('div', { style: { ...text.faint, marginLeft: 'auto' }, children: `${data.entries} entries, ${data.failures} failures` }),
-      jsx(Button, { size: 'xs', variant: 'outline', onClick: load, disabled: busy !== '' }, 'Refresh'),
-      jsx(Button, { size: 'xs', variant: 'outline', onClick: clear, disabled: busy !== '' }, 'Clear')
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: load, disabled: busy !== '', children: 'Refresh' }),
+      jsx(Button, { size: 'xs', variant: 'outline', onClick: clear, disabled: busy !== '', children: 'Clear' })
     ] }),
     jsx('div', { style: { ...text.dim, marginBottom: 8 }, children: [
       data.last_scan ? `Last read: ${data.last_scan.at} (${data.last_scan.detail})` : 'Nothing read yet.',
@@ -571,14 +575,19 @@ function LedgerPage({ ctx }) {
     return 'not scanned yet'
   }
 
-  if (ledgerQuery.error && !ledgerQuery.data) {
+  const queryError = ledgerQuery.error || statusQuery.error
+  if (queryError && (!ledgerQuery.data || !statusQuery.data)) {
     return jsx('div', {
       style: { padding: 20 },
-      children: jsx(EmptyState, {
-        title: 'Backend not loaded',
-        description: String(ledgerQuery.error.message || ledgerQuery.error)
-      })
+      children: [jsx(EmptyState, {
+        title: 'Could not load Receipt Ledger',
+        description: String(queryError.message || queryError)
+      }), jsx(Button, { onClick: () => { ledgerQuery.refetch(); statusQuery.refetch() }, children: 'Retry' })]
     })
+  }
+
+  if (!ledgerQuery.data || !statusQuery.data) {
+    return jsx('div', { role: 'status', style: { padding: 20 }, children: 'Loading Receipt Ledger…' })
   }
 
   return jsx('div', {
@@ -598,7 +607,7 @@ function LedgerPage({ ctx }) {
         })
       ] }),
       notice ? jsx('div', { style: { ...text.dim, margin: '6px 0 4px' }, children: notice }) : null,
-      setupOpen ? jsx(SetupCard, { ctx, status, onSaved, onCancel: configured ? () => setShowSetup(false) : null }) : null,
+      setupOpen && statusQuery.data ? jsx(SetupCard, { ctx, status, onSaved, onCancel: configured ? () => setShowSetup(false) : null }) : null,
       counts.charges
         ? jsx('div', { style: { display: 'flex', gap: 26, margin: '10px 0 12px', flexWrap: 'wrap' }, children: [
           jsx(Stat, { label: 'Charges', value: counts.charges }),

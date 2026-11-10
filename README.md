@@ -12,6 +12,10 @@ government page it came from and the day it was checked. And the assistant can
 ask the plugin questions directly, so "what's missing paper over fifty bucks"
 is a sentence, not a spreadsheet.
 
+## Verification notes
+
+See [the bounded audit](docs/audit-improvements.md) for the real React rendering test, package snapshot paths, cache migration behavior and deferred findings.
+
 ## Why it exists
 
 Collecting a year of receipts is bookkeeping archaeology, not judgement. Almost
