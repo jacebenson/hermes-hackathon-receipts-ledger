@@ -791,10 +791,15 @@ def scan(settings: dict[str, Any] | None = None, *, client: Any = None) -> dict[
     return ledger
 
 
-def cached_attachment(securo_id: str, attachment_id: str, filename: str) -> Path:
-    """Where a downloaded Securo receipt lives: stable, per transaction, per file."""
+def cached_attachment(securo_id: str, attachment_id: str, filename: str, *, source_url: str = "") -> Path:
+    """Scope opaque remote IDs to their instance; never use IDs as path segments."""
+    import hashlib
+
+    source = hashlib.sha256(source_url.encode()).hexdigest()
+    transaction = hashlib.sha256(securo_id.encode()).hexdigest()
+    attachment = hashlib.sha256(attachment_id.encode()).hexdigest()
     safe = re.sub(r"[^A-Za-z0-9._-]+", "_", filename or "receipt")
-    return ATTACHMENT_DIR / securo_id / f"{attachment_id}-{safe}"
+    return ATTACHMENT_DIR / source / transaction / f"{attachment}-{safe[:120]}"
 
 
 def safe_name(stem: str, suffix: str = "") -> str:

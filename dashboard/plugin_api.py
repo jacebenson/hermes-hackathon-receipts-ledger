@@ -21,10 +21,20 @@ from __future__ import annotations
 
 import csv
 import shutil
+import sys
+import tempfile
 import zipfile
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote
+
+# Hermes imports this file by path (importlib spec_from_file_location), which does
+# not put its own directory on sys.path, so the sibling modules below would fail
+# with "No module named 'audit'". Make the plugin self-locating instead of relying
+# on how the host loads it.
+_HERE = str(Path(__file__).resolve().parent)
+if _HERE not in sys.path:
+    sys.path.insert(0, _HERE)
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
@@ -320,23 +330,29 @@ async def package(request: Request):
             return _failure(error)
 
     stamp = datetime.now().strftime("%Y-%m-%d")
-    staged = Path(body.get("output_dir") or core.DATA_DIR / "packages" / stamp).expanduser()
-    receipts_out = staged / "receipts"
-    receipts_out.mkdir(parents=True, exist_ok=True)
-
     client = None
     if (ledger.get("source") or {}).get("kind") == "securo":
         try:
             client = securo_client.client_for(settings)
+            if (ledger.get("source") or {}).get("securo_url") != client.base_url:
+                raise SecuroError("The Securo instance changed since the last scan.", hint="Rescan the current instance before building a package.")
         except SecuroError as error:
             return _failure(error, ledger)
 
+    # A package is a snapshot, never a merge into a previous export. Unique
+    # staging also prevents concurrent/repeated builds from overwriting a zip.
+    requested = Path(body.get("output_dir") or core.DATA_DIR / "packages" / stamp).expanduser()
+    requested.parent.mkdir(parents=True, exist_ok=True)
+    staged = Path(tempfile.mkdtemp(prefix=requested.name + "-", dir=requested.parent))
+    receipts_out = staged / "receipts"
+    receipts_out.mkdir()
+
     copied: list[dict] = []
     errors: list[str] = []
-    for row in ledger.get("transactions", []):
-        target = receipts_out / core.safe_name(
-            f"{row['date']} {row['vendor'][:40]} ${row['amount']:.2f}", ".pdf"
-        )
+    for row_number, row in enumerate(ledger.get("transactions", []), start=1):
+        # Distinct charges can have identical date/vendor/amount, even when
+        # safe_name normalizes punctuation. Keep the readable name plus an ordinal.
+        stem = f"{row_number:06d} {row['date']} {row['vendor'][:40]} ${row['amount']:.2f}"
         if row["status"] == "attached" and client is not None and row.get("securo_id"):
             try:
                 attachments = client.attachments(row["securo_id"])
@@ -346,7 +362,7 @@ async def package(request: Request):
             for index, attachment in enumerate(attachments):
                 attachment_id = str(attachment.get("id") or "")
                 filename = attachment.get("filename") or f"receipt-{index}"
-                cached = core.cached_attachment(row["securo_id"], attachment_id, filename)
+                cached = core.cached_attachment(row["securo_id"], attachment_id, filename, source_url=client.base_url)
                 if not cached.exists():
                     try:
                         _, _, payload = client.download_attachment(row["securo_id"], attachment_id)
@@ -356,7 +372,7 @@ async def package(request: Request):
                     cached.parent.mkdir(parents=True, exist_ok=True)
                     cached.write_bytes(payload)
                 file_target = receipts_out / core.safe_name(
-                    f"{row['date']} {row['vendor'][:40]} ${row['amount']:.2f}"
+                    stem
                     + (f" {index}" if index else ""),
                     Path(filename).suffix or ".pdf",
                 )
@@ -380,7 +396,7 @@ async def package(request: Request):
                 errors.append(f"{row['vendor']} {row['date']}: {source} disappeared")
                 continue
             file_target = receipts_out / core.safe_name(
-                f"{row['date']} {row['vendor'][:40]} ${row['amount']:.2f}",
+                stem,
                 source.suffix,
             )
             shutil.copy2(source, file_target)
@@ -458,7 +474,7 @@ async def package(request: Request):
         target=str(staged),
     )
 
-    archive = staged.with_suffix(".zip")
+    archive = Path(str(staged) + ".zip")
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for path in staged.rglob("*"):
             if path.is_file():

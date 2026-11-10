@@ -12,6 +12,10 @@ government page it came from and the day it was checked. And the assistant can
 ask the plugin questions directly, so "what's missing paper over fifty bucks"
 is a sentence, not a spreadsheet.
 
+## Verification notes
+
+See [the bounded audit](docs/audit-improvements.md) for the real React rendering test, package snapshot paths, cache migration behavior and deferred findings.
+
 ## Why it exists
 
 Collecting a year of receipts is bookkeeping archaeology, not judgement. Almost
@@ -249,7 +253,10 @@ and fresh-install.
   after saving a rule.
 - Attachment upload adds a file; it never replaces or deletes one, and it does
   not retry after a failure that might have succeeded. Check the transaction in
-  Securo before trying again.
+  Securo before trying again. The write path was verified against a real Securo
+  instance with a throwaway user: preview resolved the charge, an unconfirmed
+  request was refused, a confirmed one attached the PDF, and the attachment
+  count went 0 to 1.
 
 ## Layout
 
